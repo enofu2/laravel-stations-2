@@ -15,10 +15,9 @@ use App\Http\Controllers\MovieController;
 |
 */
 
-Route::post('/admin/movies/store','MovieController@postCreateMovie');
-
-Route::get('/admin/movies/create','MovieController@getCreateMovieView');
-Route::get('/admin/movies',[MovieController::class, 'moviesTableView']);
+Route::post('/admin/movies/store','App\Http\Controllers\MovieController@store');
+Route::get('/admin/movies/create','App\Http\Controllers\MovieController@create');
+Route::get('/admin/movies',[MovieController::class, 'adminMovies']);
 Route::get('/movies',[MovieController::class, 'index']);
 
 /* railway-php05
