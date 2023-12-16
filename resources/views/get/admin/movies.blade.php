@@ -7,7 +7,11 @@
     <title>管理者映画一覧</title>
 </head>
 <body>
-    <div>管理者映画一覧</div>
+    <h1>管理者映画一覧</h1>
+    @if(session('message'))
+        <div style='background-color:#33FF33'>{{session('message')}}</div>
+    @endif
+    <input type="button" onclick="location.href='{{ route('admin.create')}}'" value="映画を新規登録">
     <table border="1">
         <tr>
             <th>ID</th>

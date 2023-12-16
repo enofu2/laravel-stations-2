@@ -4,9 +4,10 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Practice</title>
+        <title>管理者映画作成画面</title>
     </head>
     <body>
+        <h1>管理者映画作成画面</h1>
         <form method="post" action="{{url('/admin/movies/store')}}">
             @csrf
             <div>
@@ -36,5 +37,12 @@
             </div>
             <input type="submit" value="送信" />
         </form>
+        @if($errors->any())
+            <div style='background-color:#FFDD00'><strong>エラー</strong>
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </div>
+        @endif
     </body>
 </html>
