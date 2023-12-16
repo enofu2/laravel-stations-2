@@ -8,6 +8,7 @@ use App\Http\Requests\Movie\CreateMovieRequest;
 use App\Http\Requests\Movie\UpdateMovieRequest;
 
 class MovieController extends Controller {
+
     public function delete($id){
         $record = Movie::query()->where('id',$id);
         //dd($id,$record->exists(),$record->first(),$record->first());
@@ -64,9 +65,32 @@ class MovieController extends Controller {
         return view('get.admin.movies', ['movies' => $movies]);
     }
 
-    public function index() {
-        $movies = Movie::all();
-        return view('get.movies', ['movies' => $movies]);
+    public function index(Request $request) {
+        $is_showing = $request->query('is_showing');
+        $keyword = $request->query('keyword');
+        
+        $movies = new Movie;
+        //dd($is_showing,$keyword);
+        //if( !(isset($is_showing)) ){
+            if($is_showing == '1') {
+                $movies = $movies->where('is_showing','1');
+            }else if($is_showing == '0'){
+                $movies = $movies->where('is_showing','0');
+            }
+        //}
+        //dd($is_showing,$keyword,$movies,$is_showing == '0',$is_showing == '1');
+        if( !(empty($keyword)) ){
+            $movies = $movies->where('title','like', '%'.$keyword .'%')
+                ->orWhere('description','like', '%'.$keyword .'%');
+        }
+
+        $movies = $movies->paginate(20);
+        //dd($movies);
+        return view('get.movies', [
+            'movies' => $movies,
+            'is_showing' => $is_showing,
+            'keyword' => $keyword,
+        ]);
     }
 
     public function getMovies(){
