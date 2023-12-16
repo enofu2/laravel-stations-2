@@ -11,9 +11,13 @@
     @if(session('message'))
         <div style='background-color:#33FF33'>{{session('message')}}</div>
     @endif
+    @if(session('err-message'))
+        <div style='background-color:#DD3333'>{{session('err-message')}}</div>
+    @endif
     <input type="button" onclick="location.href='{{ route('admin.create')}}'" value="映画を新規登録">
     <table border="1">
         <tr>
+            <th></th>
             <th>ID</th>
             <th>映画タイトル</th>
             <th>画像URL</th>
@@ -25,6 +29,9 @@
         </tr>
         @foreach ($movies as $movie)
         <tr>
+            <td>
+                <input type="button" onclick="location.href='{{ route('admin.edit',['id'=>$movie->id])}}'" value="編集">
+            </td>
             <td>{{$movie->id}}</td>
             <td>{{$movie->title}}</td>
             <td>{{$movie->image_url}}</td>

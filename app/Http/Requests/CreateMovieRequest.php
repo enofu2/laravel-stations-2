@@ -29,7 +29,7 @@ class CreateMovieRequest extends FormRequest
             'image_url' => ['required', 'url'],
             'published_year' => ['required', 'gte:1900'],
             'description' => ['required'],
-            //'is_showing' => ['required', 'boolean'],
+            'is_showing' => ['required', 'boolean'],
             //'genre' => ['required']
         ];
     }
@@ -50,18 +50,35 @@ class CreateMovieRequest extends FormRequest
         return [
             'title.required' => '映画タイトルは必須項目です',
             'title.unique' => '映画タイトルが既に登録されています',
+
+            'image_url.required' => '画像URLは必須項目です',
+            'image_url.url' => '画像URLが不正です',
+
             'published_year.required' => '公開年は必須項目です',
             'published_year.gte' => '公開年は1900より大きい値を指定してください',
+
             'description.required' => '概要は必須項目です',
-            'is_showing.required' => '公開中かどうかは必須事項です',
-            'is_showing.boolean' => '公開中かどうかは真偽値(boolean)で指定してください'
+
+            'is_showing.required' => '「公開中かどうか」は必須事項です',
+            'is_showing.boolean' => '「公開中かどうか」の有無を指定してください'
         ];
     }
-    
+
+    protected function prepareForValidation()
+    {
+        /*
+        //dd($this['is_showing']);
+        if (isset($this['is_showing'])) {
+            $this->merge([
+                'is_showing' => $this['is_showing'] == '1' ? true:false
+            ]);
+        }
+        */
+    }
+
     protected function failedValidation(Validator $validator)
     {
         //dd($validator);
         return parent::failedValidation($validator);
     }
-    
 }
