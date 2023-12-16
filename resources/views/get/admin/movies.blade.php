@@ -14,9 +14,10 @@
     @if(session('err-message'))
         <div style='background-color:#DD3333'>{{session('err-message')}}</div>
     @endif
-    <input type="button" onclick="location.href='{{ route('admin.create')}}'" value="映画を新規登録">
+    <input type="button" onclick="location.href='{{route('admin.create')}}'" value="映画を新規登録">
     <table border="1">
         <tr>
+            <th></th>
             <th></th>
             <th>ID</th>
             <th>映画タイトル</th>
@@ -32,6 +33,13 @@
             <td>
                 <input type="button" onclick="location.href='{{ route('admin.edit',['id'=>$movie->id])}}'" value="編集">
             </td>
+            <td>
+                <form method="POST" action="{{route('admin.delete',['id'=>$movie->id])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
+                    @method('delete')
+                    @csrf
+                    <input type="submit" value="削除">
+                </form>
+            </td>
             <td>{{$movie->id}}</td>
             <td>{{$movie->title}}</td>
             <td>{{$movie->image_url}}</td>
@@ -40,6 +48,7 @@
             <td>{{$movie->description}}</td>
             <td>{{$movie->created_at}}</td>
             <td>{{$movie->updated_at}}</td>
+
         </tr>
         @endforeach
     </table>

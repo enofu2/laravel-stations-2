@@ -4,11 +4,23 @@ use Illuminate\Http\Request;
 use Illuminate\View;
 
 use App\Models\Movie;
-use App\Http\Requests\CreateMovieRequest;
-use App\Http\Requests\UpdateMovieRequest;
+use App\Http\Requests\Movie\CreateMovieRequest;
+use App\Http\Requests\Movie\UpdateMovieRequest;
 
 class MovieController extends Controller {
-
+    public function delete($id){
+        $record = Movie::query()->where('id',$id);
+        //dd($id,$record->exists(),$record->first(),$record->first());
+        if ($record->exists()) {
+            $record->delete();
+            session()->flash('message', "[id:{$id}]の情報削除しました");            
+            return redirect()->route('admin.home');
+        }else{
+            session()->flash('err-message', "該当idの情報が見つかりません");
+            return response()->view('get.admin.movies',['movies' => MovieController::getMovies()],404);
+        }
+    }
+    
     public function update(UpdateMovieRequest $request,$id) {
         Movie::query()->where('id',$id)->update([
             'title' => $request['title'],
@@ -17,7 +29,7 @@ class MovieController extends Controller {
             'is_showing' => $request['is_showing'],
             'description' => $request['description']
         ]);
-        $request->session()->flash('message', "映画情報を更新しました");
+        session()->flash('message', "映画情報を更新しました");
         return redirect()->route('admin.home');
     }
     public function store(CreateMovieRequest $request){
@@ -28,7 +40,7 @@ class MovieController extends Controller {
             'is_showing' => $request['is_showing'],
             'description' => $request['description']
         ]);
-        $request->session()->flash('message', "映画情報を新規登録しました");
+        session()->flash('message', "映画情報を新規登録しました");
         return redirect()->route('admin.home');
     }
 
@@ -38,7 +50,7 @@ class MovieController extends Controller {
         if ($record->exists()) {
             return view('post.edit',['id'=>$id,'record' => $record->first()]);
         }else{
-            $record->session()->flash('err-message', "該当idの情報が見つかりません");
+            session()->flash('err-message', "該当idの情報が見つかりません");
             return back();
         }
     }
@@ -47,7 +59,7 @@ class MovieController extends Controller {
         return view('post.create');
     }
 
-    public function adminAllMovies(){
+    public function adminPage(){
         $movies = Movie::all();
         return view('get.admin.movies', ['movies' => $movies]);
     }
@@ -55,5 +67,9 @@ class MovieController extends Controller {
     public function index() {
         $movies = Movie::all();
         return view('get.movies', ['movies' => $movies]);
+    }
+
+    public function getMovies(){
+        return Movie::all();
     }
 }

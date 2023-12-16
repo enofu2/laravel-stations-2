@@ -15,13 +15,14 @@ use App\Http\Controllers\MovieController;
 |
 */
 
+Route::delete('/admin/movies/{id}/destroy',[MovieController::class, 'delete'])->name('admin.delete');
 Route::post('/admin/movies/store',[MovieController::class, 'store'])->name('admin.store');
 Route::patch('/admin/movies/{id}/update',[MovieController::class, 'update'])->name('admin.update');
 
 Route::get('/admin/movies/{id}/edit',[MovieController::class, 'edit'])->name('admin.edit');
 Route::get('/admin/movies/create',[MovieController::class, 'create'])->name('admin.create');
-Route::get('/admin/movies',[MovieController::class, 'adminAllMovies'])->name('admin.home');
-Route::get('/movies',[MovieController::class, 'index']);
+Route::get('/admin/movies',[MovieController::class, 'adminPage'])->name('admin.home');
+Route::get('/movies',[MovieController::class, 'index'])->name('global.index');
 
 /* railway-php05
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
