@@ -24,7 +24,7 @@ class UpdateMovieRequest extends MovieRequest
             'published_year' => ['required', 'gte:1900'],
             'description' => ['required'],
             'is_showing' => ['required', 'boolean'],
-            //'genre' => ['required'],
+            'genre' => ['required'],
         ];
     }
 }

@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>映画一覧</title>
-        <link href="css/app.css" rel="stylesheet" type="text/css">
-        <link href="css/index/index.css" rel="stylesheet" type="text/css">
+        <link href={{asset('/css/app.css');}} rel="stylesheet" type="text/css">
+        <link href={{asset('/css/index/index.css');}} rel="stylesheet" type="text/css">
     </head>
 
     <body>
@@ -25,14 +25,16 @@
         <div class="listblock">
             <div class="mycnt">
                 @foreach ($movies as $movie)
-                <div class="gitems">
+                <div class="item">
                     <div class="movietitle textforcewrap mycenter">
                         <strong>{{$movie->title}}</strong>
                     </div>
                     <div class="mycenter">
                         <img class="image mycenter" src="{{$movie->image_url}}">
                     </div>
-                    <div class="imgurl textforcewrap mycenter">{{$movie->image_url}}</div>
+                    <div class="imgurl textforcewrap mycenter">
+                        {{$movie->image_url}}
+                    </div>
                 </div>
                 @endforeach
             </div>

@@ -30,7 +30,7 @@ class MovieRequest extends FormRequest
             'published_year' => ['required', 'gte:1900'],
             'description' => ['required'],
             'is_showing' => ['required', 'boolean'],
-            //'genre' => ['required']
+            'genre' => ['required']
         ];
     }
 
@@ -41,7 +41,8 @@ class MovieRequest extends FormRequest
             'image_url' => '画像URL',
             'published_year' => '公開年',
             'is_showing' => '公開中かどうか',
-            'description' => '概要'
+            'description' => '概要',
+            'genre' => 'ジャンル名'
         ];
     }
 
@@ -60,7 +61,9 @@ class MovieRequest extends FormRequest
             'description.required' => '概要は必須項目です',
 
             'is_showing.required' => '「公開中かどうか」は必須事項です',
-            'is_showing.boolean' => '「公開中かどうか」の有無を指定してください'
+            'is_showing.boolean' => '「公開中かどうか」の有無を指定してください',
+
+            'genre.required' => 'ジャンル名は必須事項です',
         ];
     }
 

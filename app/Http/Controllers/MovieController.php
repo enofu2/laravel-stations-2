@@ -1,7 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\View;
 
 use App\Models\Movie;
 use App\Http\Requests\Movie\CreateMovieRequest;
@@ -46,8 +45,11 @@ class MovieController extends Controller {
     }
 
     public function edit($id) {
-        $record = Movie::query()->where('id',$id);
-            //dd($id,$record->exists(),$record->first(),$record->first());
+        $record = Movie::query()
+            ->select('movies.*','genres.name as genre_name')
+            ->join('genres','movies.genre','=','genres.id')
+            ->where('movies.id',$id);
+        //dd($record->first());
         if ($record->exists()) {
             return view('post.edit',['id'=>$id,'record' => $record->first()]);
         }else{

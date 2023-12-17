@@ -3,7 +3,6 @@ h1.bigtitle {
     font-size: 4vw;
 }
 div.mycnt {
-    margin: 1vw;
     display: grid;
     grid-template-columns: 45vw 45vw;
     justify-content: center;
@@ -13,8 +12,9 @@ div.mycnt {
 div.listblock{
     margin: 0 auto;
 }
-div.gitems {
-    border: 1px;
+div.item {
+    border-bottom: solid 1px black;
+    border: 1px solid #000000;
 }
 img.image {
     display: block;
