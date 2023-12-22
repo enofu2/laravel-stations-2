@@ -21,7 +21,7 @@ class MovieFactory extends Factory
             'published_year' => $this->faker->year,
             'description' => $this->faker->realText(100),
             'is_showing' => $this->faker->boolean,
-            'genre' => function() {
+            'genre_id' => function() {
                 return Genre::factory()->create()->id;
             },
         ];

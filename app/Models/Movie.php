@@ -11,4 +11,9 @@ class Movie extends Model
     protected $guarded = [''];
 
     use HasFactory;
+
+    public function genre()
+    {
+        return $this->belongsTo(Genre::class, 'genre_id');
+    }
 }

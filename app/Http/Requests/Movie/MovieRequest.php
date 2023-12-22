@@ -26,6 +26,7 @@ class MovieRequest extends FormRequest
     {
         return [
             'title' => ['required', 'unique:movies'],
+            //'title' => ['required'],
             'image_url' => ['required', 'url'],
             'published_year' => ['required', 'gte:1900'],
             'description' => ['required'],
@@ -42,7 +43,9 @@ class MovieRequest extends FormRequest
             'published_year' => '公開年',
             'is_showing' => '公開中かどうか',
             'description' => '概要',
-            'genre' => 'ジャンル名'
+            'genre' => 'ジャンル名',
+            'created_at' => '作成日時',
+            'updated_at' => '更新日時',
         ];
     }
 

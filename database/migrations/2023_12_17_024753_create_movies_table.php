@@ -26,11 +26,11 @@ class CreateMoviesTable extends Migration
             $table->integer('published_year')->comment('公開年');
             $table->tinyInteger('is_showing')->comment('上映中かどうか');
             $table->text('description')->comment('概要');
-            $table->unsignedBigInteger('genre')->comment('ジャンル名');
+            $table->unsignedBigInteger('genre_id')->comment('ジャンルID');
             $table->timestamps();
 
             $table->unique([DB::raw('title(50)')], 'movies_title_unique');
-            $table->foreign('genre')->references('id')->on('genres');
+            $table->foreign('genre_id')->references('id')->on('genres');
         });
         /*
         DB::statement('CREATE INDEX movies_title_unique ON movies (title(100));');

@@ -32,8 +32,8 @@
                 </label>
             </div>
             <div class="formbox">
-                <label for="genre_name"><div>ジャンル</div>
-                    <input class="genre_name" type="text" name="title" id="title" value="{{ old('genre_name',$record['genre_name']) }}"  required/>
+                <label for="genre"><div>ジャンル</div>
+                    <input class="genre" type="text" name="genre" id="genre" value="{{ old('genre',$record['genre']['name']) }}"  required/>
                 </label>
             </div>
             <div class="formbox">
