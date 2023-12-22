@@ -6,12 +6,15 @@ use App\Models\Movie;
 use App\Models\Genre;
 use App\Http\Requests\Movie\CreateMovieRequest;
 use App\Http\Requests\Movie\UpdateMovieRequest;
+use App\Models\Sheet;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ViewErrorBag;
 
 class MovieController extends Controller {
+
+
 
     public function delete($id){
         $record = Movie::query()->where('id',$id);
@@ -89,7 +92,7 @@ class MovieController extends Controller {
                 'description' => $request['description'],
                 'genre_id' => $genreRecord['id']
             ]);
-            
+
             if ($request['title'] == str_repeat('test',100)) {
                 //railway laravel 12
                 //rulesで弾かれてStatus:302になってしまうため、テストパターン対策
@@ -171,6 +174,16 @@ class MovieController extends Controller {
             'is_showing' => $is_showing,
             'keyword' => $keyword,
         ]);
+    }
+
+    public function sheets() {
+        //$sheets = Sheet::query()->all();
+        $columns = Sheet::query()
+            ->select('column')->groupBy('column')->orderBy('column','asc')->get();
+        $rows = Sheet::query()
+            ->select('row')->groupBy('row')->orderBy('row','asc')->get();
+        //dd($columns, $rows);
+        return view('get.sheets.sheets',['columns' => $columns, 'rows' => $rows]);
     }
 
     public function getMovies(){

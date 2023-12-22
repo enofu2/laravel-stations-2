@@ -21,7 +21,9 @@
             @endforeach
         </div>
     @endif
-    <input type="button" onclick="location.href='{{route('admin.create')}}'" value="映画を新規登録">
+    <form action="{{route('admin.create')}}">
+        <button style="white-space: nowrap" type="submit">映画を新規登録</button>
+    </form>
     <table border="1">
         <tr>
             <th></th>
