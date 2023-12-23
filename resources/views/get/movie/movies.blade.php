@@ -11,7 +11,7 @@
 
     <body>
         <h1 class="bigtitle">映画一覧</h1>
-        <form method="get" action="{{route('global.index')}}">
+        <form method="get" action="{{route('movie.index')}}">
                 <div class="radio-wrap">
                     <input type="radio" name="is_showing" value="" checked>すべて
                     <input type="radio" name="is_showing" value="0">公開予定
@@ -27,7 +27,9 @@
                 @foreach ($movies as $movie)
                 <div class="item">
                     <div class="movietitle textforcewrap mycenter">
-                        <strong>{{$movie->title}}</strong>
+                        <a href="{{route('movie.detail' ,['id' => $movie['id']])}}">
+                            <strong>{{$movie->title}}</strong>
+                        </a>
                     </div>
                     <div class="mycenter">
                         <img class="image mycenter" src="{{$movie->image_url}}">

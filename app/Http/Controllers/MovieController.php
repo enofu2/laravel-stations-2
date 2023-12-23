@@ -6,6 +6,7 @@ use App\Models\Movie;
 use App\Models\Genre;
 use App\Http\Requests\Movie\CreateMovieRequest;
 use App\Http\Requests\Movie\UpdateMovieRequest;
+use App\Models\Schedule;
 use App\Models\Sheet;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ViewErrorBag;
 
 class MovieController extends Controller {
-
+    
 
 
     public function delete($id){
@@ -169,10 +170,38 @@ class MovieController extends Controller {
 
         $movies = $movies->paginate(20);
         //dd($movies);
-        return view('get.movies', [
+        return view('get.movie.movies', [
             'movies' => $movies,
             'is_showing' => $is_showing,
             'keyword' => $keyword,
+        ]);
+    }
+
+    public function movieDetail($id) {
+        
+        $movie = Movie::query()->with('genre')
+            ->where('movies.id',$id);
+        //dump($record->first());
+        if (! $movie->exists()) {
+            $errors = ['error-msg' => "該当idの情報が見つかりません"];
+            return response(view('error.error',['errors' => $errors ]),500);
+        }
+        $schedules = Schedule::query()
+            ->select('id','movie_id','start_time','end_time')
+            ->where('movie_id',$movie->first()["id"])
+            ->orderBy('start_time','asc');
+        /**
+         * Debug
+         *
+        *$test = Movie::with('schedules')->find('1');
+        *dump($test->schedules->first()->start_time->format('H:i'));
+         *
+         * End Debug
+         */
+
+        return view('get.movie.detail',[
+            'movie' => $movie->first(),
+            'schedules' => $schedules->get(),
         ]);
     }
 

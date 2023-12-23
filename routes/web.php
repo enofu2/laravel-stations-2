@@ -23,7 +23,8 @@ Route::get('/sheets',[MovieController::class, 'sheets'])->name('sheets.sheets');
 Route::get('/admin/movies/{id}/edit',[MovieController::class, 'edit'])->name('admin.edit');
 Route::get('/admin/movies/create',[MovieController::class, 'create'])->name('admin.create');
 Route::get('/admin/movies',[MovieController::class, 'adminPage'])->name('admin.home');
-Route::get('/movies',[MovieController::class, 'index'])->name('global.index');
+Route::get('/movies/{id}',[MovieController::class, 'movieDetail'])->name('movie.detail');
+Route::get('/movies',[MovieController::class, 'index'])->name('movie.index');
 
 /* railway-php05
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);
