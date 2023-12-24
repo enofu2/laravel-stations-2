@@ -1,0 +1,16 @@
+button.yes,input.yes{
+    padding: 10px;
+    border-radius:10px;
+    white-space: nowrap;
+    border: 1px solid;
+    color: #FFFFFF;
+    background-color :darkgreen;
+}
+button.no,input.no{
+    padding: 10px;
+    border-radius:10px;
+    white-space: nowrap;
+    border: 1px solid;
+    color: #FFFFFF;
+    background-color :tomato;
+}

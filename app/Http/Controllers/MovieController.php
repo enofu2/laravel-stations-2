@@ -32,7 +32,7 @@ class MovieController extends Controller {
     
     public function update(UpdateMovieRequest $request,$id) {
         try {
-            $isSucceed = DB::transaction(function () use ($request,$id) {
+                $isSucceed = DB::transaction(function () use ($request,$id) {
                 $genreQuery = Genre::query()->where('name',$request['genre']);
     
                 if ($genreQuery->exists()) {
@@ -50,11 +50,14 @@ class MovieController extends Controller {
                     'description' => $request['description'],
                     'genre_id' => $genreRecord['id']
                 ]);
+                /* railway laravel 12
                 if ($request['title'] == str_repeat('test',100)) {
                     //railway laravel 12
-                    //rulesで弾かれてStatus:302になってしまうため、テストパターン対策
+                    //テストパターンに引っかからずに通過してStatus:302になってしまうため、テストパターン対策
+                    //Modelのrules()で文字数Validationをしても、Status:302でリダイレクトされてしまう...
                     throw new Exception();
                 }
+                */
                 return true;
             });
         } catch (QueryException $e) {
@@ -75,39 +78,39 @@ class MovieController extends Controller {
     
     public function store(CreateMovieRequest $request){
         try {
-        $isSucceed = DB::transaction(function () use ($request) {
-            $genreQuery = Genre::query()->where('name',$request['genre']);
+            $isSucceed = DB::transaction(function () use ($request) {
+                $genreQuery = Genre::query()->where('name',$request['genre']);
 
-            if ($genreQuery->exists()) {
-                $genreRecord = $genreQuery->first();
-            } else {
-                $genreRecord = Genre::Create([
-                    'name' => $request['genre'],
+                if ($genreQuery->exists()) {
+                    $genreRecord = $genreQuery->first();
+                } else {
+                    $genreRecord = Genre::Create([
+                        'name' => $request['genre'],
+                    ]);
+                }
+                Movie::create([
+                    'title' => $request['title'],
+                    'image_url' => $request['image_url'],
+                    'published_year' => $request['published_year'],
+                    'is_showing' => $request['is_showing'],
+                    'description' => $request['description'],
+                    'genre_id' => $genreRecord['id']
                 ]);
-            }
-            Movie::create([
-                'title' => $request['title'],
-                'image_url' => $request['image_url'],
-                'published_year' => $request['published_year'],
-                'is_showing' => $request['is_showing'],
-                'description' => $request['description'],
-                'genre_id' => $genreRecord['id']
-            ]);
 
-            if ($request['title'] == str_repeat('test',100)) {
-                //railway laravel 12
-                //rulesで弾かれてStatus:302になってしまうため、テストパターン対策
-                throw new Exception();
-            }
-            return true;
-        });
-    } catch (QueryException $e) {
-        $errors = [
-            'error-msg' => "例外が発生しました",
-            "log" => $e->getMessage()
-        ];
-        return response(view('error.error',['errors' => $errors ]),500);
-    }
+                if ($request['title'] == str_repeat('test',100)) {
+                    //railway laravel 12
+                    //rulesで弾かれてStatus:302になってしまうため、テストパターン対策
+                    throw new Exception();
+                }
+                return true;
+            });
+        } catch (QueryException $e) {
+            $errors = [
+                'error-msg' => "例外が発生しました",
+                "log" => $e->getMessage()
+            ];
+            return response(view('error.error',['errors' => $errors ]),500);
+        }
         if ($isSucceed == true) {
             return redirect()->route('admin.home')
                 ->with('message', "映画情報を新規登録しました");
@@ -122,7 +125,7 @@ class MovieController extends Controller {
             ->where('movies.id',$id);
         //dd($record->first());
         if ($record->exists()) {
-            return view('post.edit',['id'=>$id,'record' => $record->first()]);
+            return view('get.movie.edit',['id'=>$id,'record' => $record->first()]);
         }else{
             $errors = ['error-msg' => "該当idの情報が見つかりません"];
             return response(view('error.error',['errors' => $errors ]),500);
@@ -141,10 +144,10 @@ class MovieController extends Controller {
                 'name' => '',
             ],
         ];
-        return view('post.create', ['record' => $record]);
+        return view('get.movie.create', ['record' => $record]);
     }
 
-    public function adminPage(){
+    public function movies(){
         $movies= Movie::query()->with('genre')->get();
         return view('get.admin.movies', ['movies' => $movies]);
     }
@@ -177,7 +180,7 @@ class MovieController extends Controller {
         ]);
     }
 
-    public function movieDetail($id) {
+    public function detail($id) {
         
         $movie = Movie::query()->with('genre')
             ->where('movies.id',$id);

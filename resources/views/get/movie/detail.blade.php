@@ -1,21 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{$movie['title']}}</title>
-        <link href={{asset('/css/app.css');}} rel="stylesheet" type="text/css">
-        <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
-    </head>
+@extends('layouts.app')
+@section('title',$movie['title'])
 
-    <?php /* debug */ 
-        use Carbon\CarbonImmutable;
-        //dump($movie,$schedules);
-    ?>
-    
-    <body>
-        <div class="listblock">
+@section('head_after')
+    <link href={{asset('/css/title/title.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/button/button.css');}} rel="stylesheet" type="text/css">
+@endsection
+
+@section('content')
+    <h1 class="bigtitle">映画詳細</h1>
+    @include('layouts.parts.error.error',['errors' => $errors])
+    <hr>
+    <div class="listblock">
             <div class="mycnt">
                 <div class="item">
                     <div class="movietitle textforcewrap mycenter">
@@ -43,15 +39,41 @@
                 <th>上映開始</th>
                 <th>上映終了</th>
             </tr>
-            @foreach ($schedules as $schedule)
-            <tr>
-                <td>{{$schedule['start_time']}}</td>
-                <td>{{$schedule['end_time']}}</td>
-            </tr>
+            @foreach ($movie->schedules as $schedule)
+                <tr>
+                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
+                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
+                </tr>
             @endforeach
         </table>
         @else
         <div>現在、上映予定はありません。</div>
         @endif
+        <form  action="{{ route('admin.schedule.create',['id' => $movie['id']]) }}">
+            <button class="yes" type="submit">スケジュール作成</button>
+        </form>
+
+@endsection
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{{$movie['title']}}</title>
+        <link href={{asset('/css/app.css');}} rel="stylesheet" type="text/css">
+        <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
+    </head>
+
+    <?php /* debug */ 
+        use Carbon\CarbonImmutable;
+        //dump($movie,$schedules);
+    ?>
+    
+    <body>
     </body>
 </html>

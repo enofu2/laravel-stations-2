@@ -2,7 +2,11 @@ h1.bigtitle {
     text-align: center;
     font-size: 4vw;
 }
+hr.separate {
+    margin:10px;
+}
 div.mycnt {
+    margin: 10px;
     display: grid;
     grid-template-columns: 45vw 45vw;
     justify-content: center;
@@ -10,7 +14,7 @@ div.mycnt {
     gap : 1vw;
 }
 div.listblock{
-    margin: 0 auto;
+    margin: 10px;
 }
 div.item {
     border-bottom: solid 1px black;

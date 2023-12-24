@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Schedule;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateScheduleRequest extends FormRequest
+class UpdateScheduleRequest extends ScheduleRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,6 +23,10 @@ class CreateScheduleRequest extends FormRequest
      */
     public function rules()
     {
+        $parentRules = parent::rules();
+        return $parentRules;
+
+        /*
         return [
             'movie_id' => ['required'],
             'start_time_date' => ['required', 'date_format:Y-m-d', 'before_or_equal:end_time_date'],
@@ -30,5 +34,6 @@ class CreateScheduleRequest extends FormRequest
             'end_time_date' => ['required', 'date_format:Y-m-d', 'after_or_equal:start_time_date'],
             'end_time_time' => ['required', 'date_format:H:i'],
         ];
+        */
     }
 }

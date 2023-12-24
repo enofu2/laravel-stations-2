@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Schedule extends Model
 {
+    use HasFactory;
+    
     protected $table = 'schedules';
     protected $fillable = ['movie_id','start_time','end_time'];
 
@@ -18,10 +20,15 @@ class Schedule extends Model
      */
     
     protected $casts = [
+        'movie_id' => 'integer',
         'start_time' => 'datetime',
         'end_time' => 'datetime'
     ];
-    
 
-    use HasFactory;
+    public function movie()
+    {   
+        //dd($this);
+        return $this->belongsTo(Movie::class,'movie_id');
+    }
+    
 }

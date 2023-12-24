@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +29,12 @@ class AppServiceProvider extends ServiceProvider
         //Paginator::useTailwind();
         Paginator::useBootstrap();
         //Paginator::defaultView('vendor.pagination.tailwind');
+        
+        if (config('app.env') !== 'production') {
+            DB::listen(function ($query) {
+                Log::info("Query Time:{$query->time}s] $query->sql");
+            });
+        }
         
     }
 }
