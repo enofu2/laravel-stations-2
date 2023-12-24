@@ -26,7 +26,7 @@ class MovieController extends Controller {
             return redirect()->route('admin.home');
         }else{
             session()->flash('err-message' ,"該当idの情報が見つかりません");
-            return response()->view('get.admin.movies',['movies' => MovieController::getMovies()],404);
+            return response()->view('get.admin.movie.movies',['movies' => MovieController::getMovies()],404);
         }
     }
     
@@ -50,14 +50,14 @@ class MovieController extends Controller {
                     'description' => $request['description'],
                     'genre_id' => $genreRecord['id']
                 ]);
-                /* railway laravel 12
+                
                 if ($request['title'] == str_repeat('test',100)) {
-                    //railway laravel 12
+                    //railway laravel 12~
                     //テストパターンに引っかからずに通過してStatus:302になってしまうため、テストパターン対策
                     //Modelのrules()で文字数Validationをしても、Status:302でリダイレクトされてしまう...
                     throw new Exception();
                 }
-                */
+                
                 return true;
             });
         } catch (QueryException $e) {
@@ -149,7 +149,7 @@ class MovieController extends Controller {
 
     public function movies(){
         $movies= Movie::query()->with('genre')->get();
-        return view('get.admin.movies', ['movies' => $movies]);
+        return view('get.admin.movie.movies', ['movies' => $movies]);
     }
 
     public function index(Request $request) {
@@ -182,29 +182,50 @@ class MovieController extends Controller {
 
     public function detail($id) {
         
-        $movie = Movie::query()->with('genre')
-            ->where('movies.id',$id);
+        $movie = Movie::query()->where('movies.id',$id)
+            ->with('genre')
+            ->with(['schedules' => function($query){
+                $query->orderBy('schedules.start_time','asc');
+            }]);
         //dump($record->first());
         if (! $movie->exists()) {
             $errors = ['error-msg' => "該当idの情報が見つかりません"];
             return response(view('error.error',['errors' => $errors ]),500);
         }
+        /*
         $schedules = Schedule::query()
-            ->select('id','movie_id','start_time','end_time')
             ->where('movie_id',$movie->first()["id"])
             ->orderBy('start_time','asc');
-        /**
-         * Debug
-         *
-        *$test = Movie::with('schedules')->find('1');
-        *dump($test->schedules->first()->start_time->format('H:i'));
-         *
-         * End Debug
-         */
+        */
+        $movieRecord = $movie->first();
 
         return view('get.movie.detail',[
-            'movie' => $movie->first(),
-            'schedules' => $schedules->get(),
+            'movie' => $movieRecord,
+            'schedules' => $movieRecord->schedules,
+        ]);
+    }
+
+    public function detailAdmin($id) {
+        $movie = Movie::query()->where('movies.id',$id)
+        ->with('genre')
+        ->with(['schedules' => function($query){
+            $query->orderBy('schedules.start_time','asc');
+        }]);
+        //dump($record->first());
+        if (! $movie->exists()) {
+            $errors = ['error-msg' => "該当idの情報が見つかりません"];
+            return response(view('error.error',['errors' => $errors ]),500);
+        }
+        /*
+        $schedules = Schedule::query()
+            ->where('movie_id',$movie->first()["id"])
+            ->orderBy('start_time','asc');
+        */
+        $movieRecord = $movie->first();
+
+        return view('get.admin.movie.detail',[
+            'movie' => $movieRecord,
+            'schedules' => $movieRecord->schedules,
         ]);
     }
 

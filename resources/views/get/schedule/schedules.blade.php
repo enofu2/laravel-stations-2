@@ -17,7 +17,7 @@
                 <table> 
                     <tr>
                         <th>{{$movie['id']}}</th>
-                        <th><a href="{{ route('movie.detail',['id' => $movie['id']] )}}">{{$movie['title']}}</a></th>
+                        <th><a href="{{ route('admin.movie.detail',['id' => $movie['id']] )}}">{{$movie['title']}}</a></th>
                     </tr>
                 </table>
             </h2>

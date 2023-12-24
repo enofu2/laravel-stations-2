@@ -30,6 +30,8 @@
         <div>{{$movie['published_year']}}</div>
         <div>概要：</div>
         <div>{{$movie['description']}}</div>
+        <div>上映中かどうか</div>
+        <div>{{$movie['is_showing'] ? '上映中' : '上映予定'}}</div>
         <hr>
         <h1 class="bigtitle">上映スケジュール</h1>
 
@@ -41,12 +43,38 @@
             </tr>
             @foreach ($movie->schedules as $schedule)
                 <tr>
-                    <td>{{$schedule['start_time']}}</td>
-                    <td>{{$schedule['end_time']}}</td>
+                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
+                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
                 </tr>
             @endforeach
         </table>
         @else
         <div>現在、上映予定はありません。</div>
         @endif
+        <form  action="{{ route('admin.schedule.create',['id' => $movie['id']]) }}">
+            <button class="yes" type="submit">スケジュール作成</button>
+        </form>
 @endsection
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>{{$movie['title']}}</title>
+        <link href={{asset('/css/app.css');}} rel="stylesheet" type="text/css">
+        <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
+    </head>
+
+    <?php /* debug */ 
+        use Carbon\CarbonImmutable;
+        //dump($movie,$schedules);
+    ?>
+    
+    <body>
+    </body>
+</html>

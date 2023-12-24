@@ -71,7 +71,7 @@ class ScheduleController extends Controller
         }
         
         if ($isSucceed) {
-            return redirect()->route('movie.detail',['id' => $id])
+            return redirect()->route('movie.detail',['id' => $request['movie_id']])
                 ->with('message', "スケジュールを更新しました");
         }else {
             $errors =['error-msg' => "更新に失敗しました"];
@@ -83,9 +83,10 @@ class ScheduleController extends Controller
     {
         $record = Schedule::query()->where('id',$id);
         if ($record->exists()) {
+            $movieId = $record->first()['movie_id'];
             $record->delete();
             session()->flash('message' ,"[id:{$id}]の情報削除しました");            
-            return redirect()->route('admin.schedule.schedules');
+            return redirect()->route('movie.detail',['id' => $movieId]);
         }else{
             $errors =['error-msg' => "該当idの情報が見つかりません"];
             return response(view('error.error',['errors' => $errors ]),404,[]);
@@ -104,7 +105,8 @@ class ScheduleController extends Controller
     public function detail($id)
     {
         $schedule = Schedule::query()->with('movie')
-            ->where('id',$id);
+            ->where('id',$id)
+            ->orderBy('start_time','asc');
 
         if($schedule->exists()) {
             return view('get.schedule.detail',['schedule' => $schedule->first()]);
