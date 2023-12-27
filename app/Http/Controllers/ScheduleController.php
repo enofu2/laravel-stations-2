@@ -9,6 +9,7 @@ use App\Http\Requests\Schedule\UpdateScheduleRequest;
 use App\Models\Movie;
 use App\Models\Schedule;
 use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
@@ -18,14 +19,22 @@ class ScheduleController extends Controller
 
     public function store(CreateScheduleRequest $request,$id)
     {
-        //dd($request['movie_id']);
-
+        
+        $startDateTime = date('Y-m-d H:i:s', strtotime($request['start_time_date'] .' ' .$request['start_time_time'] ));
+        $endDateTime = date('Y-m-d H:i:s', strtotime($request['end_time_date'] .' ' .$request['end_time_time'] ));
+        /*
+        if(! $this->isDateTimeAfterMinutes(5,$startDateTime,$endDateTime))
+        {
+            return redirect()->back()
+                ->withErrors('日時の指定が不正です。確認してください。');
+        }
+        */
         try {
-            $isSucceed = DB::transaction(function () use ($request,$id) {
+            $isSucceed = DB::transaction(function () use ($request,$id,$startDateTime,$endDateTime) {
                 Schedule::create([
                     'movie_id' => $id,
-                    'start_time' => date('Y-m-d H:i:s', strtotime($request['start_time_date'] .' ' .$request['start_time_time'] ) ),
-                    'end_time' => date('Y-m-d H:i:s', strtotime($request['end_time_date'] .' ' .$request['end_time_time'] ) ),
+                    'start_time' => $startDateTime,
+                    'end_time' => $endDateTime,
                 ]);
                 
                 return true;
@@ -39,7 +48,7 @@ class ScheduleController extends Controller
         }
         
         if ($isSucceed) {
-            return redirect()->route('movie.detail',['id' => $id])
+            return redirect()->route('admin.movie.detail',['id' => $id])
                 ->with('message', "スケジュールを新規作成しました");
         }else {
             $errors =['error-msg' => "更新に失敗しました"];
@@ -49,14 +58,25 @@ class ScheduleController extends Controller
 
     public function update(UpdateScheduleRequest $request,$id)
     {
+        
+        $startDateTime = date('Y-m-d H:i:s', strtotime($request['start_time_date'] .' ' .$request['start_time_time'] ));
+        $endDateTime = date('Y-m-d H:i:s', strtotime($request['end_time_date'] .' ' .$request['end_time_time'] ));
+        /*
+        if(! $this->isDateTimeAfterMinutes(5,$startDateTime,$endDateTime))
+        {
+            return redirect()->back()
+                ->withErrors('日時の指定が不正です。確認してください。');
+        }
+        */
+
         try {
-            $isSucceed = DB::transaction(function () use ($request,$id) {
+            $isSucceed = DB::transaction(function () use ($request,$id,$startDateTime,$endDateTime) {
                 $query = Schedule::query()->where('id',$id);
     
                 if ($query->exists()) {
                     $query->update([
-                        'start_time' => date('Y-m-d H:i:s', strtotime($request['start_time_date'] .' ' .$request['start_time_time'] ) ),
-                        'end_time' => date('Y-m-d H:i:s', strtotime($request['end_time_date'] .' ' .$request['end_time_time'] ) ),
+                        'start_time' => $startDateTime,
+                        'end_time' => $endDateTime,
                     ]);
                 }
                 
@@ -71,7 +91,7 @@ class ScheduleController extends Controller
         }
         
         if ($isSucceed) {
-            return redirect()->route('movie.detail',['id' => $request['movie_id']])
+            return redirect()->route('admin.movie.detail',['id' => $request['movie_id']])
                 ->with('message', "スケジュールを更新しました");
         }else {
             $errors =['error-msg' => "更新に失敗しました"];
@@ -138,4 +158,20 @@ class ScheduleController extends Controller
         }
     }
 
+    /**
+     * in-class support functions
+     * 
+     */
+
+    protected function isDateTimeAfterMinutes($minutes,$fromDateTime,$toDateTime)
+    {
+        $from = CarbonImmutable::create($fromDateTime);
+        $to = CarbonImmutable::create($toDateTime);
+
+        if ($to->gte($from->addMinutes($minutes)) )
+        {
+            return true;
+        }
+        return false;
+    }
 }

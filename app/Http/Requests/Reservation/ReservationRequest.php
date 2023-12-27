@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Reservation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateReservationRequest extends FormRequest
+class ReservationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,6 +29,17 @@ class CreateReservationRequest extends FormRequest
             'name' => ['required'],
             'email' => ['required', 'email:strict,dns'],
             'date' => ['required', 'date_format:Y-m-d']
+        ];
+    }
+
+    public function attributes()
+    {
+        return [
+            'schedule_id' => 'スケジュールID',
+            'sheet_id' => 'シートID',
+            'name' => '予約者名',
+            'email' => '予約者メールアドレス',
+            'date' => '上映日',
         ];
     }
 }
