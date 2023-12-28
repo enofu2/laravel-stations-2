@@ -22,10 +22,11 @@ class CreateReservationsTable extends Migration
             $table->string('name')->comment('予約者');
             $table->boolean('is_canceled')->default(false)->comment('予約キャンセル済み');
             $table->timestamps();
-
-            $table->foreign('schedule_id')->reference('id')->on('schedules');
-            $table->foreign('sheet_id')->reference('id')->on('sheets');
+            
             $table->unique(['schedule_id','sheet_id']);
+            $table->foreign('schedule_id')->references('id')->on('schedules');
+            $table->foreign('sheet_id')->references('id')->on('sheets');
+            
         });
     }
 

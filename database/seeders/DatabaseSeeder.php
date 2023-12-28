@@ -29,13 +29,12 @@ class DatabaseSeeder extends Seeder
         $schedulesIDs = DB::table('schedules')->pluck('id');
         $sheetsIDs = DB::table('sheets')->pluck('id');
 
-        $factory = ReservationFactory::new();
-        foreach (range(1,100) as $index) {
+        foreach (range(1,50) as $index) {
             $time = CarbonImmutable::create(2023,12,23 + rand(1,14),0,0);
 
             DB::table('reservations')->insert([
                 'date' => $time,
-                'schedule_id' => Faker::create()->randomElement($schedulesIDs),
+                'schedule_id' => Faker::create()->unique()->randomElement($schedulesIDs),
                 'sheet_id' => Faker::create()->randomElement($sheetsIDs),
                 'email' => Faker::create()->email(),
                 'name' => Faker::create()->name(),
