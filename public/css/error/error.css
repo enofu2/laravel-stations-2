@@ -1,0 +1,12 @@
+div.success{
+    background-color: greenyellow;
+}
+div.error{
+    background-color: tomato;
+}
+div.warning{
+    background-color: yellow;
+}
+div.info{
+    background-color: aqua;
+}

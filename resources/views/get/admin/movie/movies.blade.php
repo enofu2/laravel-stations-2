@@ -2,9 +2,9 @@
 @section('title','管理者映画一覧')
 
 @section('head_after')
-    <link href={{asset('/css/title/title.css');}} rel="stylesheet" type="text/css">
-    <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
-    <link href={{asset('/css/button/button.css');}} rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/title/title.css');}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/table/border.css');}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/button/button.css');}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')

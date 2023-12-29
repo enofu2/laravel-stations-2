@@ -11,6 +11,7 @@ class Reservation extends Model
         'date' => 'date',
         'is_canceled' => 'boolean',
     ];
-
+    protected $guarded = [''];
+    
     use HasFactory;
 }

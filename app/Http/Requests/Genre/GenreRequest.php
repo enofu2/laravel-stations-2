@@ -4,7 +4,7 @@ namespace App\Http\Requests\Genre;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class GenreRequest extends FormRequest
+abstract class GenreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

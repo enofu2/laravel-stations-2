@@ -2,9 +2,9 @@
 @section('title',$movie['title'])
 
 @section('head_after')
-    <link href={{asset('/css/title/title.css');}} rel="stylesheet" type="text/css">
-    <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
-    <link href={{asset('/css/button/button.css');}} rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/title/title.css');}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/table/border.css');}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('/css/button/button.css');}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -56,25 +56,3 @@
         </form>
 @endsection
 
-
-
-
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>{{$movie['title']}}</title>
-        <link href={{asset('/css/app.css');}} rel="stylesheet" type="text/css">
-        <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
-    </head>
-
-    <?php /* debug */ 
-        use Carbon\CarbonImmutable;
-        //dump($movie,$schedules);
-    ?>
-    
-    <body>
-    </body>
-</html>

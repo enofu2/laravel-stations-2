@@ -24,8 +24,8 @@ class CreateReservationsTable extends Migration
             $table->timestamps();
             
             $table->unique(['schedule_id','sheet_id']);
-            $table->foreign('schedule_id')->references('id')->on('schedules');
-            $table->foreign('sheet_id')->references('id')->on('sheets');
+            $table->foreign('schedule_id')->references('id')->on('schedules')->onDelete('cascade');
+            $table->foreign('sheet_id')->references('id')->on('sheets')->onDelete('cascade');
             
         });
     }

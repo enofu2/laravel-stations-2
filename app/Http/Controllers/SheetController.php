@@ -17,14 +17,6 @@ class SheetController extends Controller
         foreach($sheetsCollection as $item){
             $sheets[$item['row']][$item['column']] = $item['id'];
         }
-        //$columns = array_unique($sheets->pluck('column')->toArray());
-        //$rows = array_unique($sheets->pluck('row')->toArray());
-        //ddd($sheets);
-        // $columns = Sheet::query()
-        //     ->select('column')->groupBy('column')->orderBy('column','asc')->get();
-        // $rows = Sheet::query()
-        //     ->select('row')->groupBy('row')->orderBy('row','asc')->get();
-        //dd($columns, $rows);
         return view('get.sheet.sheets',compact('sheets'));
     }
 
@@ -38,14 +30,6 @@ class SheetController extends Controller
         foreach($sheetsCollection as $item){
             $sheets[$item['row']][$item['column']] = $item['id'];
         }
-        //$columns = array_unique($sheets->pluck('column')->toArray());
-        //$rows = array_unique($sheets->pluck('row')->toArray());
-        //ddd($sheets);
-        // $columns = Sheet::query()
-        //     ->select('column')->groupBy('column')->orderBy('column','asc')->get();
-        // $rows = Sheet::query()
-        //     ->select('row')->groupBy('row')->orderBy('row','asc')->get();
-        //dd($columns, $rows);
         return view('get.sheet.sheets',compact('sheets','date','movie_id','schedule_id'));
     }
 

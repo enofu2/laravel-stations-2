@@ -30,8 +30,8 @@
 @endsection
 
 <?php //$record -> $formdataにデータを移す
-$formdata['title'] = isset($record['title']) ? $record['title'] : null;
-$formdata['image_url'] = isset($record['image_url']) ? $record['image_url'] : null;
+$formdata['movie_id'] = isset($record['title']) ? $record['title'] : null;
+$formdata['schedule_id'] = isset($record['image_url']) ? $record['image_url'] : null;
 $formdata['published_year'] = isset($record['published_year']) ? $record['published_year'] : null;
 $formdata['description'] = isset($record['description']) ? $record['description'] : null;
 $formdata['genre'] = isset($record['genre']['name']) ? $record['genre']['name'] : null;

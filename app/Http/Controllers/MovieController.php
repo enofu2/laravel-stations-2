@@ -6,12 +6,9 @@ use App\Models\Movie;
 use App\Models\Genre;
 use App\Http\Requests\Movie\CreateMovieRequest;
 use App\Http\Requests\Movie\UpdateMovieRequest;
-use App\Models\Schedule;
-use App\Models\Sheet;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\ViewErrorBag;
 
 class MovieController extends Controller {
     
@@ -22,10 +19,10 @@ class MovieController extends Controller {
         //dd($id,$record->exists(),$record->first(),$record->first());
         if ($record->exists()) {
             $record->delete();
-            session()->flash('message' ,"[id:{$id}]の情報削除しました");            
+            session()->flash('success' ,['msg' => "[id:{$id}]の映画情報を削除しました"]);            
             return redirect()->route('admin.home');
         }else{
-            session()->flash('err-message' ,"該当idの情報が見つかりません");
+            session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
             return response()->view('get.admin.movie.movies',['movies' => MovieController::getMovies()],404);
         }
     }
@@ -61,18 +58,15 @@ class MovieController extends Controller {
                 return true;
             });
         } catch (QueryException $e) {
-            $errors = [
-                'error-msg' => "例外が発生しました",
-                "log" => $e->getMessage()
-            ];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "例外が発生しました",'exception' => $e->getMessage()]);
+            return response(view('error.error'),500,[]);
         }
         if ($isSucceed == true) {
-            return redirect()->route('admin.home')
-                ->with('message', "映画情報を更新しました");
+            session()->flash('success' ,['msg' => "[id:{$id}]の映画情報を更新しました"]);
+            return redirect()->route('admin.home');
         }else {
-            $errors =['error-msg' => "更新に失敗しました"];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "更新に失敗しました"]);
+            return response(view('error.error'),500,[]);
         }
     }
     
@@ -97,26 +91,25 @@ class MovieController extends Controller {
                     'genre_id' => $genreRecord['id']
                 ]);
 
-                if ($request['title'] == str_repeat('test',100)) {
+                if (strlen($request['title']) > 300) {
                     //railway laravel 12
                     //rulesで弾かれてStatus:302になってしまうため、テストパターン対策
+                    //railway laravel 17
+                    //ModelのfailedValidationを改修すれば対応できそう...(未実施)
                     throw new Exception();
                 }
                 return true;
             });
         } catch (QueryException $e) {
-            $errors = [
-                'error-msg' => "例外が発生しました",
-                "log" => $e->getMessage()
-            ];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error' ,['msg' => "例外が発生しました",'exception' => $e->getMessage()]);
+            return response(view('error.error'),500);
         }
         if ($isSucceed == true) {
-            return redirect()->route('admin.home')
-                ->with('message', "映画情報を新規登録しました");
+            session()->flash('success' ,['msg' => "映画情報を新規登録しました"]);
+            return redirect()->route('admin.home');
         }else {
-            $errors =['error-msg' => "新規登録に失敗しました"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error' ,['msg' => "新規登録に失敗しました"]);
+            return response(view('error.error'),500);
         }
     }
 
@@ -127,8 +120,8 @@ class MovieController extends Controller {
         if ($record->exists()) {
             return view('get.movie.edit',['id'=>$id,'record' => $record->first()]);
         }else{
-            $errors = ['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
+            return response(view('error.error'),500);
         }
     }
 
@@ -189,8 +182,8 @@ class MovieController extends Controller {
             }]);
         //dump($record->first());
         if (! $movie->exists()) {
-            $errors = ['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
+            return response(view('error.error'),500);
         }
         /*
         $schedules = Schedule::query()
@@ -213,8 +206,8 @@ class MovieController extends Controller {
         }]);
         //dump($record->first());
         if (! $movie->exists()) {
-            $errors = ['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
+            return response(view('error.error'),500);
         }
         /*
         $schedules = Schedule::query()

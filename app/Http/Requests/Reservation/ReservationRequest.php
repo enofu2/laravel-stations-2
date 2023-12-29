@@ -1,11 +1,17 @@
 <?php
-
+declare(stryct_types=1);
 namespace App\Http\Requests\Reservation;
 
+use Illuminate\Contracts\Support\MessageBag;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReservationRequest extends FormRequest
+abstract class ReservationRequest extends FormRequest
 {
+    protected $errorDetails = [];
+    protected $errors;
+    protected $failedStatus = false;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -41,5 +47,26 @@ class ReservationRequest extends FormRequest
             'email' => '予約者メールアドレス',
             'date' => '上映日',
         ];
+    }
+    
+    protected function failedValidation(Validator $validator) : void
+    {
+        $this->failedStatus = true;
+        $this->errorDetails = [
+            'data' => [],
+            'status' => 'error',
+            'summary' => 'Failed validation',
+            'category' => 'Reservation',
+        ];
+        $this->errors = $validator->errors();
+        
+    }
+
+    public function isFailed(){
+        return $this->failedStatus;
+    }
+
+    public function getErrors() :MessageBag{
+        return $this->errors;
     }
 }

@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>エラー</title>
-</head>
-<body>
-    @if(! empty($errors))
-        <div style='background-color:#DD3333'><strong>エラー</strong>
-            @foreach ($errors as $error)
-            <li>{{ $error }}</li>
-            @endforeach
-        </div>
-    @endif
-</body>
-</html>
+@extends('layouts.app')
+@section('title','エラー')
+
+@section('head_after')
+    <link href={{asset('/css/title/title.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/button/button.css');}} rel="stylesheet" type="text/css">
+@endsection
+
+@section('content')
+@include('layouts.parts.error.error',['errors' => $errors])
+@endsection

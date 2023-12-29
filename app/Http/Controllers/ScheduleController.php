@@ -2,17 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\Schedule\CreateScheduleRequest;
-use App\Http\Requests\Schedule\DeleteScheduleRequest;
 use App\Http\Requests\Schedule\UpdateScheduleRequest;
 use App\Models\Movie;
 use App\Models\Schedule;
 use Carbon\Carbon;
-use Carbon\CarbonImmutable;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
 
 class ScheduleController extends Controller
 {
@@ -40,19 +36,16 @@ class ScheduleController extends Controller
                 return true;
             });
         } catch (QueryException $e) {
-            $errors = [
-                'error-msg' => "例外が発生しました",
-                "log" => $e->getMessage()
-            ];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "例外が発生しました",'exception' => $e->getMessage()]);
+            return response(view('error.error'),500,[]);
         }
         
         if ($isSucceed) {
-            return redirect()->route('admin.movie.detail',['id' => $id])
-                ->with('message', "スケジュールを新規作成しました");
+            session()->flash('success' ,['msg' => "スケジュールを新規作成しました"]);
+            return redirect()->route('admin.movie.detail',['id' => $id]);
         }else {
-            $errors =['error-msg' => "更新に失敗しました"];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "更新に失敗しました"]);
+            return response(view('error.error'),500,[]);
         }
     }
 
@@ -83,19 +76,16 @@ class ScheduleController extends Controller
                 return true;
             });
         } catch (QueryException $e) {
-            $errors = [
-                'error-msg' => "例外が発生しました",
-                "log" => $e->getMessage()
-            ];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "例外が発生しました",'exception' => $e->getMessage()]);
+            return response(view('error.error'),500,[]);
         }
         
         if ($isSucceed) {
-            return redirect()->route('admin.movie.detail',['id' => $request['movie_id']])
-                ->with('message', "スケジュールを更新しました");
+            session()->flash('success' ,['msg' => "スケジュールを更新しました"]);
+            return redirect()->route('admin.movie.detail',['id' => $request['movie_id']]);
         }else {
-            $errors =['error-msg' => "更新に失敗しました"];
-            return response(view('error.error',['errors' => $errors ]),500,[]);
+            session()->flash('error' ,['msg' => "更新に失敗しました"]);
+            return response(view('error.error'),500,[]);
         }
     }
 
@@ -105,11 +95,11 @@ class ScheduleController extends Controller
         if ($record->exists()) {
             $movieId = $record->first()['movie_id'];
             $record->delete();
-            session()->flash('message' ,"[id:{$id}]の情報削除しました");            
+            session()->flash('success' ,"[id:{$id}]のスケジュール情報を削除しました");            
             return redirect()->route('movie.detail',['id' => $movieId]);
         }else{
-            $errors =['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),404,[]);
+            session()->flash('error',"該当idの情報が見つかりません");
+            return response(view('error.error'),404,[]);
         }
     }
 
@@ -131,8 +121,8 @@ class ScheduleController extends Controller
         if($schedule->exists()) {
             return view('get.schedule.detail',['schedule' => $schedule->first()]);
         }else{
-            $errors = ['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error',"該当idの情報が見つかりません");
+            return response(view('error.error'),500);
         }
     }
 
@@ -153,25 +143,25 @@ class ScheduleController extends Controller
         if ($record->exists()) {
             return view('get.schedule.edit',['id'=>$id,'record' => $record->first()]);
         }else{
-            $errors = ['error-msg' => "該当idの情報が見つかりません"];
-            return response(view('error.error',['errors' => $errors ]),500);
+            session()->flash('error',"該当idの情報が見つかりません");
+            return response(view('error.error'),500);
         }
     }
 
-    /**
-     * in-class support functions
-     * 
-     */
+    // /**
+    //  * in-class support functions
+    //  * 
+    //  */
 
-    protected function isDateTimeAfterMinutes($minutes,$fromDateTime,$toDateTime)
-    {
-        $from = CarbonImmutable::create($fromDateTime);
-        $to = CarbonImmutable::create($toDateTime);
+    // protected function isDateTimeAfterMinutes($minutes,$fromDateTime,$toDateTime)
+    // {
+    //     $from = CarbonImmutable::create($fromDateTime);
+    //     $to = CarbonImmutable::create($toDateTime);
 
-        if ($to->gte($from->addMinutes($minutes)) )
-        {
-            return true;
-        }
-        return false;
-    }
+    //     if ($to->gte($from->addMinutes($minutes)) )
+    //     {
+    //         return true;
+    //     }
+    //     return false;
+    // }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Requests\Movie;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 
-class MovieRequest extends FormRequest
+abstract class MovieRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
