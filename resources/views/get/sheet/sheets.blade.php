@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>座席表</title>
-</head>
-<body>
-    <h1>座席表</h1>
+@extends('layouts.app')
+@section('title','座席表')
+
+@section('head_after')
+    <link href={{asset('/css/title/title.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/table/border.css');}} rel="stylesheet" type="text/css">
+    <link href={{asset('/css/button/button.css');}} rel="stylesheet" type="text/css">
+@endsection
+
+@section('content')
+<h1>座席表</h1>
     @if(session('message'))
         <div style='background-color:#33FF33'>{{session('message')}}</div>
     @endif
@@ -36,5 +37,5 @@
         </tr>
         @endforeach
     </table>
-</body>
-</html>
+
+@endsection

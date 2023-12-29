@@ -229,16 +229,6 @@ class MovieController extends Controller {
         ]);
     }
 
-    public function sheets() {
-        //$sheets = Sheet::query()->all();
-        $columns = Sheet::query()
-            ->select('column')->groupBy('column')->orderBy('column','asc')->get();
-        $rows = Sheet::query()
-            ->select('row')->groupBy('row')->orderBy('row','asc')->get();
-        //dd($columns, $rows);
-        return view('get.sheets.sheets',['columns' => $columns, 'rows' => $rows]);
-    }
-
     public function getMovies(){
         return Movie::all();
     }

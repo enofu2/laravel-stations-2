@@ -1,9 +1,14 @@
 <div class="formbox">
     @if($withLabel ?? true)
         <label for="{{$name}}"><div>{{$title}}</div>
-            <input class="{{$name}}" type="{{$type}}" name="{{$name}}" id="{{$name}}" value="{{ old($name) ?? $defaultValue ?? '' }}" {{$required ?? 'required'}}/>
-        </label>
+    @endif
+    
+    @if($textarea ?? false)
+        <textarea class="{{$name}}" name="{{$name}}" id="{{$name}}" wrap="{{$wrap ?? 'soft'}}" {{$required ?? 'required'}}>{{ old($name) ?? $defaultValue ?? '' }}</textarea>
     @else
         <input class="{{$name}}" type="{{$type}}" name="{{$name}}" id="{{$name}}" value="{{ old($name) ?? $defaultValue ?? '' }}" {{$required ?? 'required'}}/>
+    @endif
+    @if($withLabel ?? true)
+        </label>
     @endif
 </div>
