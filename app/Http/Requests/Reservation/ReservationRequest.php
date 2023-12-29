@@ -2,7 +2,6 @@
 declare(stryct_types=1);
 namespace App\Http\Requests\Reservation;
 
-use Illuminate\Contracts\Support\MessageBag;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -56,9 +55,8 @@ abstract class ReservationRequest extends FormRequest
             'data' => [],
             'status' => 'error',
             'summary' => 'Failed validation',
-            'category' => 'Reservation',
         ];
-        $this->errors = $validator->errors();
+        $this->errors = $validator->errors()->toArray();
         
     }
 
@@ -66,7 +64,7 @@ abstract class ReservationRequest extends FormRequest
         return $this->failedStatus;
     }
 
-    public function getErrors() :MessageBag{
+    public function getErrors() :array{
         return $this->errors;
     }
 }

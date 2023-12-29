@@ -12,6 +12,15 @@ class Reservation extends Model
         'is_canceled' => 'boolean',
     ];
     protected $guarded = [''];
-    
+
+    public function schedule()
+    {   
+        return $this->belongsTo(Schedule::class,'schedule_id');
+    }
+
+    public function sheet()
+    {
+        return $this->belongsTo(Sheet::class, 'sheet_id');
+    }
     use HasFactory;
 }

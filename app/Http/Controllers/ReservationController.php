@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Presenters\ReservationPresenter;
 use App\Http\Requests\Reservation\CreateReservationRequest;
-use App\Presenter\ReservationPresenter;
 use App\Services\ReservationService;
 use Exception;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 class ReservationController extends Controller
 {

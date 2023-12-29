@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenter;
+namespace App\Http\Presenters;
 
 use Illuminate\Support\Facades\Session;
 
@@ -46,8 +46,17 @@ class ReservationPresenter
     /**
      * reservationsの新規登録フォームを返す
      */
-    public function createForm($movie_id,$schedule_id,$sheet_id,$date,$status = 200){
-        $record = compact('movie_id','schedule_id','sheet_id','date');
+    public function createForm(
+        $record = [
+            'movie_id' => '',
+            'movie' => '',
+            'schedule_id' => '',
+            'schedule' => '',
+            'sheet_id' => '',
+            'sheet' => '',
+            'date' => '',
+        ],$status = 200)
+    {
         return response(
             view('get.reservation.create',['record' => $record]),
             $status,

@@ -2,7 +2,9 @@
     @if($withLabel ?? true)
         <label for="{{$name}}"><div>{{$title}}</div>
     @endif
-    
+    @if(isset($text))
+        <storng>{{$text}}</storng>
+    @endif
     @if($textarea ?? false)
         <textarea class="{{$name}}" name="{{$name}}" id="{{$name}}" wrap="{{$wrap ?? 'soft'}}" {{$required ?? 'required'}}>{{ old($name) ?? $defaultValue ?? '' }}</textarea>
     @else

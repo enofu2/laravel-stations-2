@@ -2,35 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Sheet;
-use Illuminate\Http\Request;
+use App\Http\Presenters\SheetPresenter;
+use App\Http\Requests\Sheet\GetSheetForReservationRequest;
+use App\Services\SheetService;
 
 class SheetController extends Controller
 {
-    
-    public function sheets() {
-        $sheetsCollection = Sheet::query()
-            ->orderBy('row','asc')
-            ->orderBy('column','asc')
-            ->get();
-        $sheets = [];
-        foreach($sheetsCollection as $item){
-            $sheets[$item['row']][$item['column']] = $item['id'];
-        }
-        return view('get.sheet.sheets',compact('sheets'));
+    private  $SheetService;
+    private $SheetPresenter;
+
+    public function __construct(
+        SheetService $SheetService,
+        SheetPresenter $SheetPresenter)
+    {
+        $this->SheetService = $SheetService;
+        $this->SheetPresenter = $SheetPresenter;
     }
 
-    public function sheetsForReservation(Request $request,$movie_id,$schedule_id) {
-        $date = $request->date;
-        $sheetsCollection = Sheet::query()
-            ->orderBy('row','asc')
-            ->orderBy('column','asc')
-            ->get();
-        $sheets = [];
-        foreach($sheetsCollection as $item){
-            $sheets[$item['row']][$item['column']] = $item['id'];
+    public function sheets() {
+        $sheets = $this->SheetService->getSheetArray();
+        return $this->SheetPresenter->sheets($sheets);
+    }
+
+    public function sheetsForReservation(
+        GetSheetForReservationRequest $request,
+        $movie_id,
+        $schedule_id)
+    {
+        if($request->isFailed())
+        {
+            return $this->SheetPresenter
+                ->errorRedirect($request->getErrors());
         }
-        return view('get.sheet.sheets',compact('sheets','date','movie_id','schedule_id'));
+        $date = $request->query('date');
+        $sheets = $this->SheetService->getSheetArray();
+        return $this->SheetPresenter->reservation($sheets,$date,$movie_id,$schedule_id);
     }
 
     public function detail() {
