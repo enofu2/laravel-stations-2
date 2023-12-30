@@ -41,7 +41,12 @@ class ReservationController extends Controller
         $date = $request->query('date');
 
         $dto = $this->ReservationService->getFormData($movie_id,$schedule_id,$sheet_id,$date);
-        return $this->ReservationPresenter->createForm($dto);
+        if($dto->create_isDuplicated){
+            $sheetDto = $this->SheetService->getSheetArray();
+            return $this->ReservationPresenter->errorWhenDuplicated($dto,$sheetDto,false,400);
+        }else{
+            return $this->ReservationPresenter->createForm($dto);
+        }
     }
 
     /**
@@ -77,7 +82,7 @@ class ReservationController extends Controller
                 $dto->schedule_id = $storeResponse->schedule_id;
                 $dto->date = $storeResponse->date;
                 $SheetDto = $this->SheetService->getSheetArray();
-                return $this->ReservationPresenter->errorDuplicatedWhenStore($dto,$SheetDto,302);
+                return $this->ReservationPresenter->errorWhenDuplicated($dto,$SheetDto,true,302);
             }else{
                 $unknownErrorMsg = ['msg' => 'エラーが発生しました'];
                 return $this->ReservationPresenter->error($unknownErrorMsg,400);  

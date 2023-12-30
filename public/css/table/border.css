@@ -1,3 +1,7 @@
 table, th, td {
     border: 1px solid black;
 }
+.unavailable{
+    background-color: #333333;
+    color : white;
+}

@@ -17,21 +17,23 @@ class SheetService
         $sheetQuery = Sheet::query()
             ->orderBy('row','asc')
             ->orderBy('column','asc');   
+        //日付とスケジュールIDが指定されていたらリレーションを取得
         if(isset($date) && isset($schedule_id))
         {
-            $sheetQuery->with('reservatinons')
-                ->where('reservations.schedule_id',$schedule_id)
-                ->where('reservations.date',
-                    DateTime::createFromFormat('Y-m-d H:i:s',$date)->format('H:i:s')
-                );
+            $sheetQuery->with(['reservations' => function ($query) use ($schedule_id) {
+                $query
+                    ->where('schedule_id',$schedule_id);
+            }]);
         }
         $sheetsCollection = $sheetQuery->get();
 
         $sheets = [];
         $isReserved = [];
+        //座席一覧を設定
         foreach($sheetsCollection as $item){
             $sheets[$item['row']][$item['column']] = $item['id'];
         }
+        //予約状況を設定
         if(isset($date) && isset($schedule_id))
         {
             foreach($sheetsCollection as $item){
@@ -39,6 +41,7 @@ class SheetService
                     = $item->reservations->count() == 0 ? null : true;
             }
         }
+        dump($sheetsCollection,'sheetservice');
         $dto = SheetProperties::create();
         $dto->date = $date;
         $dto->sheets = $sheets;

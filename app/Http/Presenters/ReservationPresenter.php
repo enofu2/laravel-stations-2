@@ -34,7 +34,7 @@ class ReservationPresenter
     /**
      * store時に座席がすでに予約済みだった場合のレスポンス
      */
-    public function errorDuplicatedWhenStore(ReservationProperties $dto,SheetProperties $sheetDto,$status = 200){
+    public function errorWhenDuplicated(ReservationProperties $dto,SheetProperties $sheetDto,$redirect = false,$status = 200){
         //Sheet用のdtoに詰めなおす
         $sheetDto->movie_id = $dto->movie_id;
         $sheetDto->schedule_id = $dto->schedule_id;
@@ -48,7 +48,17 @@ class ReservationPresenter
         $movie_id = $sheetDto->movie_id;
         $schedule_id = $sheetDto->schedule_id;
         $date = $sheetDto->date;
-        return redirect()->route('sheets.detail',compact('movie_id','schedule_id','date'));
+        // dd($movie_id,$schedule_id,$date,$sheetDto);
+        //リダイレクト、レスポンスのどちらかを選べる
+        if($redirect){
+            return redirect()->route('sheets.detail',[
+                'movie_id' => $movie_id,
+                'schedule_id' => $schedule_id,
+                'date' => $date,
+            ]);
+        }else{
+            return response(view('get.sheet.sheets',['dto' => $sheetDto]),$status);
+        }
     }
 
     /**

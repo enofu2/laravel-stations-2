@@ -21,9 +21,11 @@ class ReservationProperties extends BaseProperties
     public $sheet_column;
     public $sheet_id;
 
-
     //store時につかうproperties
     public $store_isSucced = false;
     public $store_isDuplicated = false;
     public $store_data = [];
+
+    //フォーム取得時につかうproperties
+    public $create_isDuplicated = false;
 }

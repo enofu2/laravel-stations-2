@@ -19,6 +19,8 @@ $viewdata['isReserved'] = isset($dto->isReserved) ? $dto->isReserved : null;
 $viewdata['movie_id'] = isset($dto->movie_id) ? $dto->movie_id : null;
 $viewdata['schedule_id'] = isset($dto->schedule_id) ? $dto->schedule_id : null;
 $viewdata['date'] = isset($dto->date) ? $dto->date : null;
+
+dump($dto,$viewdata,'sheets.blade');
 ?>
 
 @section('content')
@@ -35,7 +37,7 @@ $viewdata['date'] = isset($dto->date) ? $dto->date : null;
              ?>
                 @if(isset($viewdata['date']) && isset($viewdata['movie_id']) && isset($viewdata['schedule_id']) && isset($sheetId))
                         @if(isset($viewdata['isReserved'][$rowKey][$columnKey]))
-                        <td class="unavailble">
+                        <td class="unavailable">
                             {{$rowKey}}-{{$columnKey}}
                         @else
                         <td>
