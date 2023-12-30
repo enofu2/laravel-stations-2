@@ -9,6 +9,7 @@ use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\MessageBag;
 
 class ScheduleController extends Controller
 {
@@ -98,7 +99,8 @@ class ScheduleController extends Controller
             session()->flash('success' ,"[id:{$id}]のスケジュール情報を削除しました");            
             return redirect()->route('movie.detail',['id' => $movieId]);
         }else{
-            session()->flash('error',"該当idの情報が見つかりません");
+            $bag = new MessageBag(['該当idの情報が見つかりません']);
+            session()->flash('errors',$bag);
             return response(view('error.error'),404,[]);
         }
     }

@@ -3,37 +3,52 @@
 namespace App\Http\Presenters;
 
 use App\Properties\Reservation\ReservationProperties;
+use App\Properties\Sheet\SheetProperties;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\MessageBag;
+use Illuminate\Support\ViewErrorBag;
 
 class ReservationPresenter
 {
     /**
      * エラー時のレスポンス
      */
-    public function error($errors = [],$status = 400) {
-        Session::flash('error',$errors);
+    public function error($messages = [],$status = 422) {
+        $bag = new MessageBag($messages);
+        $errbag = new ViewErrorBag;
+        $errbag->put('default',$bag);
+        Session::flash('errors',$errbag);
         return response(view('error.error'),$status,[]);
     }
     /**
      * エラー時のリダイレクト
      */
-    public function errorRedirect($errors = []){
-        Session::flash('error',$errors);
+    public function errorRedirect($messages = []){
+        $bag = new MessageBag($messages);
+        $errbag = new ViewErrorBag;
+        $errbag->put('default',$bag);
+        Session::flash('errors',$errbag);
         return redirect()->back();
     }
 
     /**
      * store時に座席がすでに予約済みだった場合のレスポンス
      */
-    public function errorDuplicatedWhenStore($record,$status = 200){
-        $movie_id = $record['movie_id'];
-        $schedule_id = $record['schedule_id'];
-        $date = $record['date'];
+    public function errorDuplicatedWhenStore(ReservationProperties $dto,SheetProperties $sheetDto,$status = 200){
+        //Sheet用のdtoに詰めなおす
+        $sheetDto->movie_id = $dto->movie_id;
+        $sheetDto->schedule_id = $dto->schedule_id;
+        $sheetDto->date = $dto->date;
+        // $sheetDto->sheets = $sheetDto->sheets;
         Session::flash('warning',['msg' => 'その座席はすでに予約済みです']);
-        return response(
-                view('get.sheet.sheets',compact('movie_id','schedule_id','date')),
-                $status,
-                []);
+        // return response(
+        //         view('get.sheet.sheets',['record' => $sheetDto ]),
+        //         $status,
+        //         []);
+        $movie_id = $sheetDto->movie_id;
+        $schedule_id = $sheetDto->schedule_id;
+        $date = $sheetDto->date;
+        return redirect()->route('sheets.detail',compact('movie_id','schedule_id','date'));
     }
 
     /**
@@ -49,18 +64,8 @@ class ReservationPresenter
      */
     public function createForm(ReservationProperties $dto,$status = 200)
     {
-        // //疑似dtoからview用のarrayに詰めなおす
-        // $record = [
-        //     'movie_title' => $dto->movie_title,
-        //     'movie_id' => $dto->movie_id,
-        //     'schedule_id' => $dto->schedule_id,
-        //     'sheet_row' => $dto->sheet_row,
-        //     'sheet_column' => $dto->sheet_column,
-        //     'sheet_id' => $dto->sheet_id,
-        //     'date' => $dto->date,
-        // ];
         return response(
-            view('get.reservation.create',['record' => $dto]),
+            view('get.reservation.create',['dto' => $dto]),
             $status,
             []);
     }

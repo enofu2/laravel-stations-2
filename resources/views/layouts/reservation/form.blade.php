@@ -1,6 +1,6 @@
 <?php
 /**
- * @var App\Properties\Base\Reservation\ReservationProperties $record
+ * @var App\Properties\Reservation\ReservationProperties $dto
  */
 ?>
 @extends('layouts.app')
@@ -20,18 +20,18 @@
     </style>
 @endsection
 
-<?php //$record -> $formdataにデータを移す
-$formdata['movie_id'] = isset($record->movie_id) ? $record->movie_id : null;
-$formdata['movie_title'] = isset($record->movie_title) ? $record->movie_title : null;
-$formdata['schedule_id'] = isset($record->schedule_id) ? $record->schedule_id : null;
-$formdata['sheet_id'] = isset($record->sheet_id) ? $record->sheet_id : null;
-$formdata['schedule_start_time'] = isset($record->schedule_start_time) ? $record->schedule_start_time : null;
-$formdata['schedule_end_time'] = isset($record->schedule_end_time) ? $record->schedule_end_time : null;
-$formdata['sheet_row'] = isset($record->sheet_row) ? $record->sheet_row : null;
-$formdata['sheet_column'] = isset($record->sheet_column) ? $record->sheet_column : null;
-$formdata['date'] = isset($record->date) ? $record->date : null;
-$formdata['name'] = isset($record->name) ? $record->name : null;
-$formdata['email'] = isset($record->email) ? $record->email : null;
+<?php //$dto -> $formdataにデータを移す
+$formdata['movie_id'] = isset($dto->movie_id) ? $dto->movie_id : null;
+$formdata['movie_title'] = isset($dto->movie_title) ? $dto->movie_title : null;
+$formdata['schedule_id'] = isset($dto->schedule_id) ? $dto->schedule_id : null;
+$formdata['sheet_id'] = isset($dto->sheet_id) ? $dto->sheet_id : null;
+$formdata['schedule_start_time'] = isset($dto->schedule_start_time) ? $dto->schedule_start_time : null;
+$formdata['schedule_end_time'] = isset($dto->schedule_end_time) ? $dto->schedule_end_time : null;
+$formdata['sheet_row'] = isset($dto->sheet_row) ? $dto->sheet_row : null;
+$formdata['sheet_column'] = isset($dto->sheet_column) ? $dto->sheet_column : null;
+$formdata['date'] = isset($dto->date) ? $dto->date : null;
+$formdata['name'] = isset($dto->name) ? $dto->name : null;
+$formdata['email'] = isset($dto->email) ? $dto->email : null;
 ?>
 
 @section('content')
@@ -83,5 +83,5 @@ $formdata['email'] = isset($record->email) ? $record->email : null;
             ])
         <input class='yes' type="submit" value="{{$buttonLabel}}" >
     </form>
-    @include('layouts.parts.error.error',['errors' => $errors])
+    @include('layouts.parts.error.error')
 @endsection

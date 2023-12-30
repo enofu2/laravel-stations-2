@@ -3,5 +3,4 @@
         'action' => route('admin.schedule.store',['id' => $id]),
         'buttonLabel' => '新規作成',
         'record' => $record,
-        'errors' => $errors,
     ])

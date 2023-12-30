@@ -20,8 +20,8 @@ class SheetController extends Controller
     }
 
     public function sheets() {
-        $sheets = $this->SheetService->getSheetArray();
-        return $this->SheetPresenter->sheets($sheets);
+        $dto = $this->SheetService->getSheetArray();
+        return $this->SheetPresenter->sheets($dto);
     }
 
     public function sheetsForReservation(
@@ -31,15 +31,11 @@ class SheetController extends Controller
     {
         if($request->isFailed())
         {
-            return $this->SheetPresenter
-                ->errorRedirect($request->getErrors());
+            return $this->SheetPresenter->error($request->getErrors(),400);
         }
         $date = $request->query('date');
-        $sheets = $this->SheetService->getSheetArray();
-        return $this->SheetPresenter->reservation($sheets,$date,$movie_id,$schedule_id);
-    }
-
-    public function detail() {
-
+        $dto = $this->SheetService->getSheetArray($date,$movie_id,$schedule_id);
+        
+        return $this->SheetPresenter->reservation($dto);
     }
 }

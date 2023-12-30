@@ -3,5 +3,4 @@
         'action' => route('admin.store') ,
         'buttonLabel' => '新規登録',
         'record' => $record,
-        'errors' => $errors,
     ])

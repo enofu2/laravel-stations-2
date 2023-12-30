@@ -27,11 +27,10 @@ Route::patch('/admin/schedules/{id}/update',[ScheduleController::class, 'update'
 Route::delete('/admin/schedules/{id}/destroy',[ScheduleController::class, 'delete'])->name('admin.schedule.delete');
 
 Route::get('/sheets',[SheetController::class, 'sheets'])->name('sheets.sheets');
-Route::get('/movies/{moive_id}/schedules/{schedule_id}/sheets',[SheetController::class, 'sheetsForReservation'])->name('sheets.detail');
+Route::get('/movies/{movie_id}/schedules/{schedule_id}/sheets',[SheetController::class, 'sheetsForReservation'])->name('sheets.detail');
 
-Route::get('/moives/{movie_id}/schedules/{schedule_id}/reservations/create',[ReservationController::class, 'create'])->name('reservations.create');
+Route::get('/movies/{movie_id}/schedules/{schedule_id}/reservations/create',[ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations/store',[ReservationController::class, 'store'])->name('reservations.store');
-
 Route::get('/movies',[MovieController::class, 'index'])->name('movie.index');
 Route::get('/movies/{id}',[MovieController::class, 'detail'])->name('movie.detail');
 Route::get('/admin/movies/{id}/edit',[MovieController::class, 'edit'])->name('admin.edit');

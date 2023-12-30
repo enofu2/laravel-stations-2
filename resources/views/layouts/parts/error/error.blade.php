@@ -1,3 +1,4 @@
+<?php use Illuminate\Support\Facades\Session; ?>
 
 @if ($messages = Session::get('success'))
 @foreach($messages as $message)
@@ -5,6 +6,7 @@
     <strong>{{ $message }}</strong>
 </div>
 @endforeach
+<?php Session::forget('success'); ?>
 @endif
 
 @if ($messages = Session::get('error'))
@@ -13,6 +15,7 @@
     <strong>{{ $message }}</strong>
 </div>
 @endforeach
+<?php Session::forget('error'); ?>
 @endif
 
 @if ($messages = Session::get('warning'))
@@ -21,6 +24,7 @@
     <strong>{{ $message }}</strong>
 </div>
 @endforeach
+<?php Session::forget('warning'); ?>
 @endif
 
 @if ($messages = Session::get('info'))
@@ -29,12 +33,16 @@
     <strong>{{ $message }}</strong>
 </div>
 @endforeach
+<?php Session::forget('info'); ?>
 @endif
 
+<?php
+//{{dd($errors,'parts.error')}}
+?>
 @if($errors->any())
     <div style='background-color:#DD3333'><strong>エラー</strong>
         @foreach ($errors->all() as $error)
-        <li>{{ $error }}</li>
+            <li>{{ $error }}</li>
         @endforeach
     </div>
 @endif

@@ -4,5 +4,4 @@
         'method' => 'PATCH',
         'buttonLabel' => '更新',
         'record' => $record,
-        'errors' => $errors,
     ])

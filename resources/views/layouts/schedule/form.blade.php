@@ -21,5 +21,5 @@
         @include('layouts.parts.form.formbox', ['withLabel' => false, 'defaultValue' => isset($record['movie_id']) ? $record['movie_id'] : null, 'name' => 'movie_id', 'type' => 'hidden'])
         <input style="border: 1px solid;color: #FFFFFF;background-color :darkgreen" type="submit" value="{{$buttonLabel}}" >
     </form>
-    @include('layouts.parts.error.error',['errors' => $errors])
+    @include('layouts.parts.error.error')
 @endsection

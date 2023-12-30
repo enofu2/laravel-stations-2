@@ -28,7 +28,7 @@ class GetSheetForReservationRequest extends SheetRequest
     public function rules()
     {
         return [
-            'date' => 'required','date_format:Y-m-d',
+            'date' => 'required','date_format:Y-m-d H:i:s',
         ];
     }
 }

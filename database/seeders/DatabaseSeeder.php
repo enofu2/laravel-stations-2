@@ -29,6 +29,7 @@ class DatabaseSeeder extends Seeder
         $schedulesIDs = DB::table('schedules')->pluck('id');
         $sheetsIDs = DB::table('sheets')->pluck('id');
 
+        /*
         foreach (range(1,50) as $index) {
             $time = CarbonImmutable::create(2023,12,23 + rand(1,14),0,0);
 
@@ -41,7 +42,7 @@ class DatabaseSeeder extends Seeder
                 'is_canceled' => rand(1,100) > 5 ? true:false,
             ]);
         }
-        
+        */
         
         /* railway-php05
         Practice::factory(10)->create();
