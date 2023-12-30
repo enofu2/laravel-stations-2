@@ -26,10 +26,12 @@ class ReservationController extends Controller
      * Reservationの新規登録フォームを返却
      */
     public function create(Request $request,$movie_id,$schedule_id) {
-        $sheet_id = $request->query('sheet_id');
+        //クエリパラメータを詰めなおす
+        $sheet_id = $request->query('sheetId');
         $date = $request->query('date');
-        return $this->ReservationPresenter
-            ->createForm($movie_id,$schedule_id,$sheet_id,$date);
+
+        $dto = $this->ReservationService->getFormData($movie_id,$schedule_id,$sheet_id,$date);
+        return $this->ReservationPresenter->createForm($dto);
     }
 
     /**
@@ -37,35 +39,29 @@ class ReservationController extends Controller
      */
     public function store(CreateReservationRequest $request) {
         if($request->isFailed()){
-            return $this->ReservationPresenter
-                ->errorRedirect($request->getErrors());
+            return $this->ReservationPresenter->errorRedirect($request->getErrors());
         }
 
         $passedRequest = $request->validated();
         try {
-            $storeResponse = $this->ReservationService
-                ->store($passedRequest);
+            $storeResponse = $this->ReservationService->store($passedRequest);
         }catch(Exception $e){
             $exceptionErrors = [
                 'msg' => "例外が発生しました",
                 "exception" => $e->getMessage()
             ];
-            return $this->ReservationPresenter
-                ->error($exceptionErrors,500);
+            return $this->ReservationPresenter->error($exceptionErrors,500);
         }
 
-        if($storeResponse['isSucceed'] == false) {
-            if ($storeResponse['isDuplicated']){
-                return $this->ReservationPresenter
-                    ->errorDuplicatedWhenStore($passedRequest,200);
+        if($storeResponse->store_isSucced == false) {
+            if ($storeResponse->store_isDuplicated){
+                return $this->ReservationPresenter->errorDuplicatedWhenStore($passedRequest,200);
             }else{
                 $unknownErrorMsg = ['msg' => 'エラーが発生しました'];
-                return $this->ReservationPresenter
-                    ->error($unknownErrorMsg,500);  
+                return $this->ReservationPresenter->error($unknownErrorMsg,500);  
             }
         }
 
-        return $this->ReservationPresenter
-            ->succeedStore($request['movie_id']);
+        return $this->ReservationPresenter->succeedStore($request['movie_id']);
     }
 }

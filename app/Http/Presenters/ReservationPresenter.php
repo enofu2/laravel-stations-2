@@ -2,6 +2,7 @@
 
 namespace App\Http\Presenters;
 
+use App\Properties\Reservation\ReservationProperties;
 use Illuminate\Support\Facades\Session;
 
 class ReservationPresenter
@@ -9,7 +10,7 @@ class ReservationPresenter
     /**
      * エラー時のレスポンス
      */
-    public function error($errors = [],$status = 422) {
+    public function error($errors = [],$status = 400) {
         Session::flash('error',$errors);
         return response(view('error.error'),$status,[]);
     }
@@ -46,19 +47,20 @@ class ReservationPresenter
     /**
      * reservationsの新規登録フォームを返す
      */
-    public function createForm(
-        $record = [
-            'movie_id' => '',
-            'movie' => '',
-            'schedule_id' => '',
-            'schedule' => '',
-            'sheet_id' => '',
-            'sheet' => '',
-            'date' => '',
-        ],$status = 200)
+    public function createForm(ReservationProperties $dto,$status = 200)
     {
+        // //疑似dtoからview用のarrayに詰めなおす
+        // $record = [
+        //     'movie_title' => $dto->movie_title,
+        //     'movie_id' => $dto->movie_id,
+        //     'schedule_id' => $dto->schedule_id,
+        //     'sheet_row' => $dto->sheet_row,
+        //     'sheet_column' => $dto->sheet_column,
+        //     'sheet_id' => $dto->sheet_id,
+        //     'date' => $dto->date,
+        // ];
         return response(
-            view('get.reservation.create',['record' => $record]),
+            view('get.reservation.create',['record' => $dto]),
             $status,
             []);
     }
