@@ -17,6 +17,12 @@
     input.email{
         width : 300px;
     }
+    input.schedule_id{
+        width : 100px;
+    }
+    input.sheet_id{
+        width : 100px;
+    }
     </style>
 @endsection
 
@@ -31,6 +37,7 @@ $formdata['schedule_end_time'] = isset($dto->schedule_end_time) ? $dto->schedule
 $formdata['sheet_row'] = isset($dto->sheet_row) ? $dto->sheet_row : null;
 $formdata['sheet_column'] = isset($dto->sheet_column) ? $dto->sheet_column : null;
 $formdata['date'] = isset($dto->date) ? $dto->date : null;
+$formdata['dateYmd'] = isset($dto->dateYmd) ? $dto->dateYmd : null;
 $formdata['name'] = isset($dto->name) ? $dto->name : null;
 $formdata['email'] = isset($dto->email) ? $dto->email : null;
 ?>
@@ -45,26 +52,44 @@ $formdata['email'] = isset($dto->email) ? $dto->email : null;
         @include('layouts.parts.form.formbox', [
             'defaultValue' => $formdata['movie_id'],
             'name' => 'movie_id',
+            'type' => 'text',
+            'title' => '映画作品',
+            'text' => $formdata['movie_title'],
+            ])
+        {{-- 管理者用に予約idを表示する --}}
+        @include('layouts.parts.form.formbox', [
+            'defaultValue' => $formdata['id'],
+            'name' => 'id',
+            'type' => 'hidden',
+            'title' => '予約id',
+            'text' => $formdata['id'],
+            ])
+        {{-- 管理者用に予約idを表示する --}}
+        @include('layouts.parts.form.formbox', [
+            'defaultValue' => $formdata['movie_title'],
+            'name' => 'movie_id',
             'type' => 'hidden',
             'title' => '映画作品',
             'text' => $formdata['movie_title'],
             ])
+        {{-- 管理者用にスケジュールidを編集可能にする --}}
         @include('layouts.parts.form.formbox', [
             'defaultValue' => $formdata['schedule_id'],
             'name' => 'schedule_id',
-            'type' => 'hidden',
-            'title' => '上映スケジュール',
+            'type' => 'text',
+            'title' => '上映スケジュールid',
             'text' => $formdata['schedule_start_time'] .'～'. $formdata['schedule_end_time'],
             ])
+        {{-- 管理者用にシートidを編集可能にする --}}
         @include('layouts.parts.form.formbox', [
             'defaultValue' => $formdata['sheet_id'],
             'name' => 'sheet_id',
-            'type' => 'hidden',
-            'title' => '座席',
+            'type' => 'text',
+            'title' => 'シートid',
             'text' => $formdata['sheet_row'] .'-'. $formdata['sheet_column'],
             ])
         @include('layouts.parts.form.formbox', [
-            'defaultValue' => $formdata['date'],
+            'defaultValue' => $formdata['dateYmd'],
             'name' => 'date',
             'type' => 'date',
             'title' => '日付',
@@ -82,13 +107,13 @@ $formdata['email'] = isset($dto->email) ? $dto->email : null;
             'title' => '予約者メールアドレス'
             ])
         <input class='yes' type="submit" value="{{$buttonLabel}}" >
-        @if($deleteButton ?? false)
-            <form method="POST" action="{{route('admin.reservations.delete',['id' => $formdata['id']])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
-                @method('delete')
-                @csrf
-                <input class='no' type="submit" value="削除">
-            </form>
-        @endif
     </form>
+    @if($deleteButton ?? false)
+        <form method="POST" action="{{route('admin.reservations.delete',['id' => $formdata['id']])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
+            @method('delete')
+            @csrf
+            <input class='no' type="submit" value="削除">
+        </form>
+    @endif
     @include('layouts.parts.error.error')
 @endsection

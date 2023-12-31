@@ -41,7 +41,6 @@ class SheetService
                     = $item->reservations->count() == 0 ? null : true;
             }
         }
-        dump($sheetsCollection,'sheetservice');
         $dto = SheetProperties::create();
         $dto->date = $date;
         $dto->sheets = $sheets;

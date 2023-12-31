@@ -31,6 +31,13 @@ Route::get('/movies/{movie_id}/schedules/{schedule_id}/sheets',[SheetController:
 
 Route::get('/movies/{movie_id}/schedules/{schedule_id}/reservations/create',[ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations/store',[ReservationController::class, 'store'])->name('reservations.store');
+Route::get('/admin/reservations',[ReservationController::class, 'adminReservations'])->name('admin.reservations.reservations');
+Route::get('/admin/reservations/create',[ReservationController::class, 'adminCreate'])->name('admin.reservations.create');
+Route::get('/admin/reservations/{id}/edit',[ReservationController::class, 'adminEdit'])->name('admin.reservations.edit');
+Route::delete('/admin/reservations/{id}',[ReservationController::class, 'adminDelete'])->name('admin.reservations.delete');
+Route::patch('/admin/reservations/{id}',[ReservationController::class, 'adminUpdate'])->name('admin.reservations.update');
+Route::post('/admin/reservations',[ReservationController::class, 'adminStore'])->name('admin.reservations.store');
+
 Route::get('/movies',[MovieController::class, 'index'])->name('movie.index');
 Route::get('/movies/{id}',[MovieController::class, 'detail'])->name('movie.detail');
 Route::get('/admin/movies/{id}/edit',[MovieController::class, 'edit'])->name('admin.edit');

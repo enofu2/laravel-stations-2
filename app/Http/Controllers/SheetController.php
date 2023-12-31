@@ -18,12 +18,17 @@ class SheetController extends Controller
         $this->SheetService = $SheetService;
         $this->SheetPresenter = $SheetPresenter;
     }
-
+    /**
+     * シート一覧を返却する
+     */
     public function sheets() {
         $dto = $this->SheetService->getSheetArray();
         return $this->SheetPresenter->sheets($dto);
     }
 
+    /**
+     * 予約用のシート一覧を返却する
+     */
     public function sheetsForReservation(
         GetSheetForReservationRequest $request,
         $movie_id,

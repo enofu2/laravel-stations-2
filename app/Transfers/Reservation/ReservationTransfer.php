@@ -33,4 +33,17 @@ class ReservationTransfer extends BaseTransfer
         ];
     }
 
+    public function update() :array
+    {
+        return [
+            // 'id' => $this->id,
+            'date' => $this->date,
+            'schedule_id' => $this->schedule_id,
+            'sheet_id' => $this->sheet_id,
+            'email' => $this->email,
+            'name' => $this->name,
+            'is_canceled' => $this->is_canceled
+        ];
+    }
+
 }

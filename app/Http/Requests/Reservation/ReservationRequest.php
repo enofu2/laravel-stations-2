@@ -33,7 +33,7 @@ abstract class ReservationRequest extends FormRequest
             'sheet_id' => ['required'],
             'name' => ['required'],
             'email' => ['required', 'email:strict,dns'],
-            'date' => ['required', 'date_format:Y-m-d']
+            // 'date' => ['required', 'date_format:Y-m-d','after_or_equal:'. date('Y-m-d')],
         ];
     }
 

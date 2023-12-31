@@ -29,20 +29,19 @@ class DatabaseSeeder extends Seeder
         $schedulesIDs = DB::table('schedules')->pluck('id');
         $sheetsIDs = DB::table('sheets')->pluck('id');
 
-        /*
-        foreach (range(1,50) as $index) {
-            $time = CarbonImmutable::create(2023,12,23 + rand(1,14),0,0);
+        // $now = CarbonImmutable::now();
+        // foreach (range(1,50) as $index) {
+        //     $time = CarbonImmutable::create($now->addDays(rand(0,14)));
 
-            DB::table('reservations')->insert([
-                'date' => $time,
-                'schedule_id' => Faker::create()->unique()->randomElement($schedulesIDs),
-                'sheet_id' => Faker::create()->randomElement($sheetsIDs),
-                'email' => Faker::create()->email(),
-                'name' => Faker::create()->name(),
-                'is_canceled' => rand(1,100) > 5 ? true:false,
-            ]);
-        }
-        */
+        //     DB::table('reservations')->insert([
+        //         'date' => $time,
+        //         'schedule_id' => Faker::create()->unique()->randomElement($schedulesIDs),
+        //         'sheet_id' => Faker::create()->randomElement($sheetsIDs),
+        //         'email' => Faker::create()->email(),
+        //         'name' => Faker::create()->name(),
+        //         'is_canceled' => rand(1,100) > 5 ? true:false,
+        //     ]);
+        // }
         
         /* railway-php05
         Practice::factory(10)->create();
