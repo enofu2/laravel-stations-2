@@ -43,7 +43,7 @@ class ScheduleController extends Controller
         
         if ($isSucceed) {
             session()->flash('success' ,['msg' => "スケジュールを新規作成しました"]);
-            return redirect()->route('admin.movie.detail',['id' => $id]);
+            return redirect()->route('admin.movies.detail',['id' => $id]);
         }else {
             session()->flash('error' ,['msg' => "更新に失敗しました"]);
             return response(view('error.error'),500,[]);
@@ -83,7 +83,7 @@ class ScheduleController extends Controller
         
         if ($isSucceed) {
             session()->flash('success' ,['msg' => "スケジュールを更新しました"]);
-            return redirect()->route('admin.movie.detail',['id' => $request['movie_id']]);
+            return redirect()->route('admin.movies.detail',['id' => $request['movie_id']]);
         }else {
             session()->flash('error' ,['msg' => "更新に失敗しました"]);
             return response(view('error.error'),500,[]);
@@ -97,7 +97,7 @@ class ScheduleController extends Controller
             $movieId = $record->first()['movie_id'];
             $record->delete();
             session()->flash('success' ,"[id:{$id}]のスケジュール情報を削除しました");            
-            return redirect()->route('movie.detail',['id' => $movieId]);
+            return redirect()->route('movies\.detail',['id' => $movieId]);
         }else{
             $bag = new MessageBag(['該当idの情報が見つかりません']);
             session()->flash('errors',$bag);

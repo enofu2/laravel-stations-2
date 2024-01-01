@@ -37,3 +37,6 @@ RUN composer global require "laravel/installer"
 
 WORKDIR /var/www
 
+# xdebugをインストールするために追記
+RUN pecl install xdebug && \
+    docker-php-ext-enable xdebug

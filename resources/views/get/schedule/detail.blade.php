@@ -25,10 +25,10 @@
     </div>
     <hr>
     <div>
-        <form action="{{ route('admin.schedule.edit',['scheduleId' => $schedule['id']])}}">
+        <form action="{{ route('admin.schedules.edit',['scheduleId' => $schedule['id']])}}">
             <button style="border: 1px solid;color: #FFFFFF;background-color :tomato; white-space: nowrap" type="submit">編集</button>
         </form>
-        <form method="POST" action="{{route('admin.schedule.delete',['id' => $schedule['id']])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
+        <form method="POST" action="{{route('admin.schedules.delete',['id' => $schedule['id']])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
             @method('delete')
             @csrf
             <input style="border: 1px solid;color: #FFFFFF;background-color :darkgreen" type="submit" value="削除">

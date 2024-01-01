@@ -13,7 +13,7 @@
     <hr>
     @include('layouts.parts.error.error',['errors' => $errors])
     <div>
-        <form class="searchbox" method="get" action="{{route('movie.index')}}">
+        <form class="searchbox" method="get" action="{{route('movies.index')}}">
                 <div class="radio-wrap">
                     <input type="radio" name="is_showing" value="" checked>すべて
                     <input type="radio" name="is_showing" value="0">公開予定
@@ -31,7 +31,7 @@
             @foreach ($movies as $movie)
             <div class="item">
                 <div class="movietitle textforcewrap mycenter">
-                    <a href="{{route('movie.detail' ,['id' => $movie['id']])}}">
+                    <a href="{{route('movies.detail' ,['id' => $movie['id']])}}">
                         <strong>{{$movie->title}}</strong>
                     </a>
                 </div>

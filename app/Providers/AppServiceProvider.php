@@ -31,13 +31,13 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         //Paginator::defaultView('vendor.pagination.tailwind');
         
-        /*
+        
         if (config('app.env') !== 'production') {
             DB::listen(function ($query) {
                 Log::info("Query Time:{$query->time}s] $query->sql");
             });
         }
-        */
+        
         
     }
 }

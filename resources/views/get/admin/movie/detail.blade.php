@@ -43,15 +43,15 @@
             </tr>
             @foreach ($movie->schedules as $schedule)
                 <tr>
-                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
-                    <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
+                    <td><a href="{{ route('admin.schedules.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
+                    <td><a href="{{ route('admin.schedules.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
                 </tr>
             @endforeach
         </table>
         @else
         <div>現在、上映予定はありません。</div>
         @endif
-        <form  action="{{ route('admin.schedule.create',['id' => $movie['id']]) }}">
+        <form  action="{{ route('admin.schedules.create',['id' => $movie['id']]) }}">
             <button class="yes" type="submit">スケジュール作成</button>
         </form>
 @endsection

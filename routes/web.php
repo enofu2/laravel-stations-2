@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Debug\DebugController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\MovieController;
@@ -18,36 +19,88 @@ use App\Http\Controllers\SheetController;
 |
 */
 
-Route::get('/admin/schedules',[ScheduleController::class, 'schedules'])->name('admin.schedule.schedules');
-Route::get('/admin/schedules/{id}',[ScheduleController::class, 'detail'])->name('admin.schedule.detail');
-Route::get('/admin/movies/{id}/schedules/create',[ScheduleController::class, 'create'])->name('admin.schedule.create');
-Route::get('/admin/schedules/{scheduleId}/edit',[ScheduleController::class, 'edit'])->name('admin.schedule.edit');
-Route::post('/admin/movies/{id}/schedules/store',[ScheduleController::class, 'store'])->name('admin.schedule.store');
-Route::patch('/admin/schedules/{id}/update',[ScheduleController::class, 'update'])->name('admin.schedule.update');
-Route::delete('/admin/schedules/{id}/destroy',[ScheduleController::class, 'delete'])->name('admin.schedule.delete');
+//テスト用のエンドポイント
+//「HogeRoute」という名前のメソッドを'/Hoge'にマッピングする
+Route::prefix('debug')->name('debug.')->group(function () {
+    // $methods = [];
+    foreach(get_class_methods(DebugController::class) as $name){
+        if(preg_match('/^(.*)Route$/',$name))
+        {
+            preg_match('/^(.*)Route$/',$name,$match);
+            Route::get('/'.$match[1],[DebugController::class,$name])->name($match[1]); 
+        }
+       
+    }
+});
 
-Route::get('/sheets',[SheetController::class, 'sheets'])->name('sheets.sheets');
-Route::get('/movies/{movie_id}/schedules/{schedule_id}/sheets',[SheetController::class, 'sheetsForReservation'])->name('sheets.detail');
+//route(/admin/*)
+//name(admin.*)
+Route::prefix('admin')->name('admin.')->group(function () {
+    
+    //name(admin.schedules.*)
+    Route::name('schedules.')->group(function () {
+        //route(/admin/schedules/*)
+        Route::prefix('schedules')->group(function () {
+            Route::get('/',[ScheduleController::class, 'schedules'])->name('schedules');
+            Route::get('/{id}',[ScheduleController::class, 'detail'])->name('detail');
+            Route::patch('/{id}/update',[ScheduleController::class, 'update'])->name('update');
+            Route::delete('/{id}/destroy',[ScheduleController::class, 'delete'])->name('delete');
+            Route::get('/{scheduleId}/edit',[ScheduleController::class, 'edit'])->name('edit');
+        });
+        
+        //route(/admin/movies/*)
+        Route::prefix('movies')->group(function () {
+            Route::get('/{id}/schedules/create',[ScheduleController::class, 'create'])->name('create');
+            Route::post('/{id}/schedules/store',[ScheduleController::class, 'store'])->name('store');
+        });
 
-Route::get('/movies/{movie_id}/schedules/{schedule_id}/reservations/create',[ReservationController::class, 'create'])->name('reservations.create');
-Route::post('/reservations/store',[ReservationController::class, 'store'])->name('reservations.store');
-Route::get('/admin/reservations',[ReservationController::class, 'adminReservations'])->name('admin.reservations.reservations');
-Route::get('/admin/reservations/create',[ReservationController::class, 'adminCreate'])->name('admin.reservations.create');
-Route::get('/admin/reservations/{id}/edit',[ReservationController::class, 'adminEdit'])->name('admin.reservations.edit');
-Route::delete('/admin/reservations/{id}',[ReservationController::class, 'adminDelete'])->name('admin.reservations.delete');
-Route::patch('/admin/reservations/{id}',[ReservationController::class, 'adminUpdate'])->name('admin.reservations.update');
-Route::post('/admin/reservations',[ReservationController::class, 'adminStore'])->name('admin.reservations.store');
+    });
 
-Route::get('/movies',[MovieController::class, 'index'])->name('movie.index');
-Route::get('/movies/{id}',[MovieController::class, 'detail'])->name('movie.detail');
-Route::get('/admin/movies/{id}/edit',[MovieController::class, 'edit'])->name('admin.edit');
-Route::get('/admin/movies/create',[MovieController::class, 'create'])->name('admin.create');
-Route::get('/admin/movies/{id}',[MovieController::class, 'detailAdmin'])->name('admin.movie.detail');
-Route::get('/admin/movies',[MovieController::class, 'movies'])->name('admin.home');
-Route::post('/admin/movies/store',[MovieController::class, 'store'])->name('admin.store');
-Route::patch('/admin/movies/{id}/update',[MovieController::class, 'update'])->name('admin.update');
-Route::delete('/admin/movies/{id}/destroy',[MovieController::class, 'delete'])->name('admin.delete');
+    //name(admin.reservations.*)
+    Route::name('reservations.')->group(function () {
+        //route(/admin/reservations/*)
+        Route::prefix('reservations')->group(function () {
+            Route::get('/',[ReservationController::class, 'adminReservations'])->name('reservations');
+            Route::post('/',[ReservationController::class, 'adminStore'])->name('store');
+            Route::delete('/{id}',[ReservationController::class, 'adminDelete'])->name('delete');
+            Route::patch('/{id}',[ReservationController::class, 'adminUpdate'])->name('update');
+            Route::get('/create',[ReservationController::class, 'adminCreate'])->name('create');
+            Route::get('/{id}/edit',[ReservationController::class, 'adminEdit'])->name('edit');
+        });
+    });
 
+    //name(admin.movies.*)
+    Route::name('movies.')->group(function () {
+        //route(/admin/movies/*)
+        Route::prefix('movies')->group(function () {
+            Route::get('/',[MovieController::class, 'movies'])->name('movies');
+            Route::get('/{id}/edit',[MovieController::class, 'edit'])->name('edit');
+            Route::get('/create',[MovieController::class, 'create'])->name('create');
+            Route::get('/{id}',[MovieController::class, 'detailAdmin'])->name('detail');
+            Route::post('/store',[MovieController::class, 'store'])->name('store');
+            Route::patch('/{id}/update',[MovieController::class, 'update'])->name('update');
+            Route::delete('/{id}/destroy',[MovieController::class, 'delete'])->name('delete');
+        });
+    });
+});
+
+//name(sheets.*)
+Route::name('sheets.')->group(function () {
+    Route::get('sheets/',[SheetController::class, 'sheets'])->name('sheets');
+    Route::get('/movies/{movie_id}/schedules/{schedule_id}/sheets',[SheetController::class, 'sheetsForReservation'])->name('detail');
+});
+
+//name(reservations.*)
+Route::name('reservations.')->group(function () {
+    Route::get('/movies/{movie_id}/schedules/{schedule_id}/reservations/create',[ReservationController::class, 'create'])->name('create');
+    Route::post('/reservations/store',[ReservationController::class, 'store'])->name('store');
+});
+
+//name(sheets.*)
+Route::name('movies.')->group(function () {
+    Route::get('/movies',[MovieController::class, 'index'])->name('index');
+    Route::get('/movies/{id}',[MovieController::class, 'detail'])->name('detail');
+});
 
 /* railway-php05
 Route::get('/getPractice', [PracticeController::class, 'getPractice']);

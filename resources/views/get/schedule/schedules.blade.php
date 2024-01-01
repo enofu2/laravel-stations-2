@@ -17,7 +17,7 @@
                 <table> 
                     <tr>
                         <th>{{$movie['id']}}</th>
-                        <th><a href="{{ route('admin.movie.detail',['id' => $movie['id']] )}}">{{$movie['title']}}</a></th>
+                        <th><a href="{{ route('admin.movies.detail',['id' => $movie['id']] )}}">{{$movie['title']}}</a></th>
                     </tr>
                 </table>
             </h2>
@@ -28,8 +28,8 @@
                 </tr>
                 @foreach ($movie->schedules as $schedule)
                     <tr>
-                        <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
-                        <td><a href="{{ route('admin.schedule.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
+                        <td><a href="{{ route('admin.schedules.detail',['id' => $schedule['id'] ]) }}">{{$schedule['start_time']}}</a></td>
+                        <td><a href="{{ route('admin.schedules.detail',['id' => $schedule['id'] ]) }}">{{$schedule['end_time']}}</a></td>
                     </tr>
                 @endforeach
             </table>

@@ -90,7 +90,7 @@ class ReservationPresenter
      */
     public function succeedStore($movie_id) {
         Session::flash('success',['msg' => '予約が完了しました']);
-        return redirect()->route('movie.detail',['id' => $movie_id]);
+        return redirect()->route('movies\.detail',['id' => $movie_id]);
     }
 
     /**

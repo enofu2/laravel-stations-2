@@ -20,7 +20,7 @@ class MovieController extends Controller {
         if ($record->exists()) {
             $record->delete();
             session()->flash('success' ,['msg' => "[id:{$id}]の映画情報を削除しました"]);            
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.movies.movies');
         }else{
             session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
             return response()->view('get.admin.movie.movies',['movies' => MovieController::getMovies()],404);
@@ -63,7 +63,7 @@ class MovieController extends Controller {
         }
         if ($isSucceed == true) {
             session()->flash('success' ,['msg' => "[id:{$id}]の映画情報を更新しました"]);
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.movies.movies');
         }else {
             session()->flash('error' ,['msg' => "更新に失敗しました"]);
             return response(view('error.error'),500,[]);
@@ -106,7 +106,7 @@ class MovieController extends Controller {
         }
         if ($isSucceed == true) {
             session()->flash('success' ,['msg' => "映画情報を新規登録しました"]);
-            return redirect()->route('admin.home');
+            return redirect()->route('admin.movies.movies');
         }else {
             session()->flash('error' ,['msg' => "新規登録に失敗しました"]);
             return response(view('error.error'),500);

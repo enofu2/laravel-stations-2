@@ -11,7 +11,7 @@
     <h1 class="bigtitle">管理者映画一覧</h1>
     <hr>
     @include('layouts.parts.error.error',['errors' => $errors])
-    <form action="{{route('admin.create')}}">
+    <form action="{{route('admin.movies.create')}}">
         <button class="yes" type="submit">映画を新規登録</button>
     </form>
     <table>
@@ -32,12 +32,12 @@
         @foreach ($movies as $movie)
         <tr>
             <td>
-                <form  action="{{ route('admin.edit',['id'=>$movie->id])}}">
+                <form  action="{{ route('admin.movies.edit',['id'=>$movie->id])}}">
                     <button class="yes" type="submit">編集</button>
                 </form>
             </td>
             <td>
-                <form method="POST" action="{{route('admin.delete',['id'=>$movie->id])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
+                <form method="POST" action="{{route('admin.movies.delete',['id'=>$movie->id])}}" onsubmit="if(confirm('削除しますか?')){return Boolean('1');}else{return Boolean('');}">
                     @method('delete')
                     @csrf
                     <input class="no" type="submit" value="削除">
