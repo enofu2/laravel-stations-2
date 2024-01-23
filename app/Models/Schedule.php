@@ -27,8 +27,12 @@ class Schedule extends Model
 
     public function movie()
     {   
-        //dd($this);
         return $this->belongsTo(Movie::class,'movie_id');
+    }
+
+    public function screen()
+    {   
+        return $this->belongsTo(Screen::class,'screen_id');
     }
     
 }

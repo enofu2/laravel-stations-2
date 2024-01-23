@@ -21,11 +21,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        
-        //Movie::factory(15)->create();
-        $movies = Movie::factory(50)->hasSchedules(5)->create();
         $this->call(SheetTableSeeder::class);
 
+        //Movie::factory(15)->create();
+        $movies = Movie::factory(50)->hasSchedules(5)->create();
         $schedulesIDs = DB::table('schedules')->pluck('id');
         $sheetsIDs = DB::table('sheets')->pluck('id');
 

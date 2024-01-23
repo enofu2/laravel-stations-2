@@ -23,7 +23,7 @@ class MovieController extends Controller {
             return redirect()->route('admin.movies.movies');
         }else{
             session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
-            return response()->view('get.admin.movie.movies',['movies' => MovieController::getMovies()],404);
+            return response()->view('app.admin.movie.movies',['movies' => MovieController::getMovies()],404);
         }
     }
     
@@ -119,7 +119,7 @@ class MovieController extends Controller {
             ->where('movies.id',$id);
         //dd($record->first());
         if ($record->exists()) {
-            return view('get.movie.edit',['id'=>$id,'record' => $record->first()]);
+            return view('app.movie.edit',['id'=>$id,'record' => $record->first()]);
         }else{
             session()->flash('error' ,['msg' => "該当idの情報が見つかりません"]);
             return response(view('error.error'),500);
@@ -138,12 +138,12 @@ class MovieController extends Controller {
                 'name' => '',
             ],
         ];
-        return view('get.movie.create', ['record' => $record]);
+        return view('app.movie.create', ['record' => $record]);
     }
 
     public function movies(){
         $movies= Movie::query()->with('genre')->get();
-        return view('get.admin.movie.movies', ['movies' => $movies]);
+        return view('app.admin.movie.movies', ['movies' => $movies]);
     }
 
     public function index(Request $request) {
@@ -167,7 +167,7 @@ class MovieController extends Controller {
 
         $movies = $movies->paginate(20);
         //dd($movies);
-        return view('get.movie.movies', [
+        return view('app.movie.movies', [
             'movies' => $movies,
             'is_showing' => $is_showing,
             'keyword' => $keyword,
@@ -193,7 +193,7 @@ class MovieController extends Controller {
         */
         $movieRecord = $movie->first();
 
-        return view('get.movie.detail',[
+        return view('app.movie.detail',[
             'movie' => $movieRecord,
             'schedules' => $movieRecord->schedules,
         ]);
@@ -217,7 +217,7 @@ class MovieController extends Controller {
         */
         $movieRecord = $movie->first();
 
-        return view('get.admin.movie.detail',[
+        return view('app.admin.movie.detail',[
             'movie' => $movieRecord,
             'schedules' => $movieRecord->schedules,
         ]);

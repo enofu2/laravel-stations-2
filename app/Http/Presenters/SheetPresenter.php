@@ -36,7 +36,7 @@ class SheetPresenter
     public function sheets(SheetProperties $dto,$status = 200)
     {
         return response(
-            view('get.sheet.sheets',['dto' => $dto]),
+            view('app.sheet.sheets',['dto' => $dto]),
             $status,
             []);
     }
@@ -47,7 +47,7 @@ class SheetPresenter
     public function reservation(SheetProperties $dto,$status = 200)
     {
         return response(
-            view('get.sheet.sheets',['dto' => $dto]),
+            view('app.sheet.sheets',['dto' => $dto]),
             $status,
             []);
     }

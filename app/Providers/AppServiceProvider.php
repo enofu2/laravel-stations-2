@@ -17,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        ## [2024.01.24|Hara Takanobu] :start
+        # laravel-er-diagram-generatorの設定(ローカル環境下の時だけロードする)
+        if ($this->app->environment('local')) {
+            $this->app->register(\BeyondCode\ErdGenerator\ErdGeneratorServiceProvider::class);
+        }
     }
 
     /**

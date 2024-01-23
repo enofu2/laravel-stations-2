@@ -1,0 +1,209 @@
+digraph G {
+	graph [bb="0,0,1518.2,858.77",
+		bgcolor="#F7F7F7",
+		concentrate=1,
+		esep=1,
+		fontname="Helvetica Neue",
+		fontsize=12,
+		labelloc=t,
+		layout=circo,
+		nodesep=1,
+		overlap="",
+		pad=0.5,
+		rankdir=LR,
+		ranksep=2,
+		splines=polyline,
+		style=filled
+	];
+	node [label="\N"];
+	appmodelsmovie	[fontname="Helvetica Neue",
+		height=5.1389,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Movie</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="title" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >title (text)</font></td></tr>
+<tr width="100%"><td port="image_url" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >image_url (text)</font></td></tr>
+<tr width="100%"><td port="published_year" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >published_year (integer)</font></td></tr>
+<tr width="100%"><td port="is_showing" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >is_showing (boolean)</font></td></tr>
+<tr width="100%"><td port="description" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >description (text)</font></td></tr>
+<tr width="100%"><td port="genre_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >genre_id (bigint)</font></td></tr>
+<tr width="100%"><td port="created_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >created_at (datetime)</font></td></tr>
+<tr width="100%"><td port="updated_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >updated_at (datetime)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="891.27,392.39",
+		shape=rectangle,
+		width=2.6806];
+	appmodelsgenre	[fontname="Helvetica Neue",
+		height=2.5694,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Genre</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="name" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >name (text)</font></td></tr>
+<tr width="100%"><td port="created_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >created_at (datetime)</font></td></tr>
+<tr width="100%"><td port="updated_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >updated_at (datetime)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="1429.7,392.39",
+		shape=rectangle,
+		width=2.4583];
+	appmodelsmovie:genre_id -> appmodelsgenre:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="1169.5,374.47",
+		penwidth=1.8,
+		pos="s,988.27,299.39 e,1341.7,429.39 1016.6,309.8 1088.2,336.13 1274.4,404.63 1327.4,424.13",
+		xlabel="BelongsTo
+genre",
+		xlp="1137,351.97"];
+	appmodelsschedule	[fontname="Helvetica Neue",
+		height=4.1111,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Schedule</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="movie_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >movie_id (bigint)</font></td></tr>
+<tr width="100%"><td port="start_time" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >start_time (datetime)</font></td></tr>
+<tr width="100%"><td port="end_time" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >end_time (datetime)</font></td></tr>
+<tr width="100%"><td port="screen_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >screen_id (bigint)</font></td></tr>
+<tr width="100%"><td port="created_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >created_at (datetime)</font></td></tr>
+<tr width="100%"><td port="updated_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >updated_at (datetime)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="634.27,392.39",
+		shape=rectangle,
+		width=2.4583];
+	appmodelsmovie:id -> appmodelsschedule:movie_id	[arrowhead=crow,
+		arrowsize=3,
+		arrowtail=none,
+		color="#FCBF49",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="767.38,503.79",
+		penwidth=1.8,
+		pos="e,723.27,448.39 795.27,522.39 795.27,522.39 765.72,492.02 744.48,470.19",
+		xlabel="HasMany
+schedules",
+		xlp="752.38,481.29"];
+	appmodelsschedule:movie_id -> appmodelsmovie:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		penwidth=1.8,
+		xlabel="BelongsTo
+movie"];
+	appmodelsscreen	[fontname="Helvetica Neue",
+		height=3.0833,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Screen</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="name" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >name (string)</font></td></tr>
+<tr width="100%"><td port="created_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >created_at (datetime)</font></td></tr>
+<tr width="100%"><td port="updated_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >updated_at (datetime)</font></td></tr>
+<tr width="100%"><td port="deleted_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >deleted_at (datetime)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="352.89,111",
+		shape=rectangle,
+		width=2.4583];
+	appmodelsschedule:screen_id -> appmodelsscreen:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="487.7,252.9",
+		penwidth=1.8,
+		pos="s,546.27,336.39 e,441.89,167 530.42,310.66 507.83,274.01 467.22,208.11 449.98,180.14",
+		xlabel="BelongsTo
+screen",
+		xlp="507.7,230.4"];
+	appmodelsreservation	[fontname="Helvetica Neue",
+		height=5.1389,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Reservation</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="date" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >date (date)</font></td></tr>
+<tr width="100%"><td port="schedule_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >schedule_id (bigint)</font></td></tr>
+<tr width="100%"><td port="sheet_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >sheet_id (bigint)</font></td></tr>
+<tr width="100%"><td port="email" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >email (string)</font></td></tr>
+<tr width="100%"><td port="name" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >name (string)</font></td></tr>
+<tr width="100%"><td port="is_canceled" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >is_canceled (boolean)</font></td></tr>
+<tr width="100%"><td port="created_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >created_at (datetime)</font></td></tr>
+<tr width="100%"><td port="updated_at" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >updated_at (datetime)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="352.89,673.77",
+		shape=rectangle,
+		width=2.4583];
+	appmodelsreservation:schedule_id -> appmodelsschedule:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="494.6,608.01",
+		penwidth=1.8,
+		pos="s,441.89,729.77 e,546.27,485.39 453.86,701.74 476.25,649.33 523.67,538.29 540.33,499.29",
+		xlabel="BelongsTo
+schedule",
+		xlp="532.1,615.51"];
+	appmodelssheet	[fontname="Helvetica Neue",
+		height=2.5694,
+		label=<<table width="100%" height="100%" border="0" margin="0" cellborder="1" cellspacing="0" cellpadding="10">
+<tr width="100%"><td width="100%" bgcolor="#d3d3d3"><font color="#333333">Sheet</font></td></tr>
+<tr width="100%"><td port="id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >id (bigint)</font></td></tr>
+<tr width="100%"><td port="column" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >column (integer)</font></td></tr>
+<tr width="100%"><td port="row" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >row (string)</font></td></tr>
+<tr width="100%"><td port="screen_id" align="left" width="100%"  bgcolor="#ffffff"><font color="#333333" >screen_id (bigint)</font></td></tr>
+</table>>,
+		margin=0,
+		pos="71.5,392.39",
+		shape=rectangle,
+		width=1.9861];
+	appmodelsreservation:sheet_id -> appmodelssheet:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="198.5,561.65",
+		penwidth=1.8,
+		pos="s,264.89,692.77 e,143.5,429.39 252.12,665.08 226.38,609.21 169.03,484.78 149.87,443.21",
+		xlabel="BelongsTo
+sheet",
+		xlp="166,539.15"];
+	appmodelssheet:id -> appmodelsreservation:sheet_id	[arrowhead=crow,
+		arrowsize=3,
+		arrowtail=none,
+		color="#FCBF49",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		penwidth=1.8,
+		xlabel="HasMany
+reservations"];
+	appmodelssheet:screen_id -> appmodelsscreen:id	[arrowhead=tee,
+		arrowsize=3,
+		arrowtail=crow,
+		color="#F77F00",
+		dir=both,
+		fontname="Helvetica Neue",
+		label=" ",
+		lp="206.36,243.91",
+		penwidth=1.8,
+		pos="s,143.5,317.39 e,264.89,167 162.47,293.89 188.74,261.34 235.23,203.75 255.26,178.93",
+		xlabel="BelongsTo
+screen",
+		xlp="173.86,221.41"];
+}

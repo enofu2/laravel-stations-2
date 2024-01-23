@@ -53,7 +53,7 @@ class ReservationPresenter
         // $sheetDto->sheets = $sheetDto->sheets;
         Session::flash('warning',['msg' => 'その座席はすでに予約済みです']);
         // return response(
-        //         view('get.sheet.sheets',['record' => $sheetDto ]),
+        //         view('app.sheet.sheets',['record' => $sheetDto ]),
         //         $status,
         //         []);
         $movie_id = $sheetDto->movie_id;
@@ -68,7 +68,7 @@ class ReservationPresenter
                 'date' => $date,
             ]);
         }else{
-            return response(view('get.sheet.sheets',['dto' => $sheetDto]),$status);
+            return response(view('app.sheet.sheets',['dto' => $sheetDto]),$status);
         }
     }
 
@@ -81,7 +81,7 @@ class ReservationPresenter
         if($redirect){
             return redirect()->route('admin.reservations.reservations',['dto' => $dto]);
         }else{
-            return response(view('get.admin.reservation.reservations',['dto' => $dto]),$status);
+            return response(view('app.admin.reservation.reservations',['dto' => $dto]),$status);
         }
     }
 
@@ -123,7 +123,7 @@ class ReservationPresenter
     public function failedAdminDelete(ReservationProperties $dto,$status = 404) {
         Session::flash('success',['msg' => "予約の削除に失敗しました"]);
         return response(
-            view('get.admin.reservation.reservations',['dto' => $dto]),
+            view('app.admin.reservation.reservations',['dto' => $dto]),
             $status,
             []);
     }
@@ -134,7 +134,7 @@ class ReservationPresenter
     public function createForm(ReservationProperties $dto,$status = 200)
     {
         return response(
-            view('get.reservation.create',['dto' => $dto]),
+            view('app.reservation.create',['dto' => $dto]),
             $status,
             []);
     }
@@ -145,7 +145,7 @@ class ReservationPresenter
     public function reservations(ReservationProperties $dto,$status = 200)
     {
         return response(
-            view('get.admin.reservation.reservations',['dto' => $dto]),
+            view('app.admin.reservation.reservations',['dto' => $dto]),
             $status,
             []);
     }
@@ -156,7 +156,7 @@ class ReservationPresenter
     public function adminCreateForm(ReservationProperties $dto,$status = 200)
     {
         return response(
-            view('get.admin.reservation.create',['dto' => $dto]),
+            view('app.admin.reservation.create',['dto' => $dto]),
             $status,
             []);
     }
@@ -167,7 +167,7 @@ class ReservationPresenter
     public function adminEditForm(ReservationProperties $dto,$status = 200)
     {
         return response(
-            view('get.admin.reservation.edit',['dto' => $dto]),
+            view('app.admin.reservation.edit',['dto' => $dto]),
             $status,
             []);
     }

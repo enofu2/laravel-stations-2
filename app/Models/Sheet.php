@@ -13,6 +13,11 @@ class Sheet extends Model
     public function reservations() {
         return $this->hasMany(Reservation::class,'sheet_id');
     }
+    
+    public function screen()
+    {   
+        return $this->belongsTo(Screen::class,'screen_id');
+    }
 
     // public function reservations_related($date,$schedule_id) {
     //     $formattedDate = DateTime::createFromFormat('Y-m-d H:i:s',$date)->format('H:i:s');

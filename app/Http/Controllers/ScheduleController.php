@@ -111,7 +111,7 @@ class ScheduleController extends Controller
             ->with(['schedules' => function($query){
                 $query->orderBy('schedules.start_time','asc');
             }]);
-        return view('get.schedule.schedules', ['movies' => $movies->get()]);
+        return view('app.schedule.schedules', ['movies' => $movies->get()]);
     }
 
     public function detail($id)
@@ -121,7 +121,7 @@ class ScheduleController extends Controller
             ->orderBy('start_time','asc');
 
         if($schedule->exists()) {
-            return view('get.schedule.detail',['schedule' => $schedule->first()]);
+            return view('app.schedule.detail',['schedule' => $schedule->first()]);
         }else{
             session()->flash('error',"該当idの情報が見つかりません");
             return response(view('error.error'),500);
@@ -135,7 +135,7 @@ class ScheduleController extends Controller
             'start_time' => Carbon::now(),
             'end_time' => Carbon::now(),
         ];
-        return view('get.schedule.create',['record' => $record,'id' => $id]);
+        return view('app.schedule.create',['record' => $record,'id' => $id]);
     }
 
     public function edit($id)
@@ -143,7 +143,7 @@ class ScheduleController extends Controller
         $record = Schedule::query()->where('id',$id);
 
         if ($record->exists()) {
-            return view('get.schedule.edit',['id'=>$id,'record' => $record->first()]);
+            return view('app.schedule.edit',['id'=>$id,'record' => $record->first()]);
         }else{
             session()->flash('error',"該当idの情報が見つかりません");
             return response(view('error.error'),500);

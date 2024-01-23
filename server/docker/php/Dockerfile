@@ -9,6 +9,10 @@ RUN apt-get update \
     libzip-dev locales unzip git vim libpng-dev gnupg libnss3 libx11-dev \
     wget openssh-client nodejs libjpeg-dev libpng-dev libfreetype6-dev \
     libjpeg62-turbo-dev libwebp-dev default-mysql-client \
+    ## [2024.1.23|Hara Takanobu]::start
+    # laravel-er-diagram-generatorをインストールするために追記
+    && apt-get install graphviz
+    ## [2024.1.23|Hara Takanobu]::end
     && docker-php-ext-install intl zip pdo_mysql gd bcmath \
     # docker-php-ext-configure gd --with-freetype=/usr/include/ \
     # --with-jpeg=/usr/include/ --with-webp=/usr/include/ \
@@ -35,8 +39,15 @@ COPY my.ini /usr/local/etc/php/conf.d/my.ini
 # Install laravel installer
 RUN composer global require "laravel/installer"
 
+## [2024.1.23|Hara Takanobu]
+# laravel-er-diagram-generatorをインストールするために追記
+RUN composer require beyondcode/laravel-er-diagram-generator --dev
+## [2024.1.23|Hara Takanobu]::end
+
 WORKDIR /var/www
 
+## [2024.1.?|Hara Takanobu]::start
 # xdebugをインストールするために追記
 RUN pecl install xdebug && \
     docker-php-ext-enable xdebug
+## [2024.1.?|Hara Takanobu]::end

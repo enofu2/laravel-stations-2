@@ -15,8 +15,11 @@ class CreateSheetsTable extends Migration
     {
         Schema::create('sheets', function (Blueprint $table) {
             $table->id();
-            $table->integer('column');
-            $table->string('row');
+            $table->integer('column')->comment('座席の列');
+            $table->string('row')->comment('座席の行');
+            $table->unsignedBigInteger('screen_id')->comment('上映スクリーンid');
+
+            $table->foreign('screen_id')->references('id')->on('screens')->onDelete('cascade');
         });
     }
 
