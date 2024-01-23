@@ -1,5 +1,7 @@
 <?php
 namespace App\Http\Controllers;
+
+//use App\Data\MovieData;
 use Illuminate\Http\Request;
 
 use App\Models\Movie;
@@ -12,8 +14,6 @@ use Illuminate\Support\Facades\DB;
 
 class MovieController extends Controller {
     
-
-
     public function delete($id){
         $record = Movie::query()->where('id',$id);
         //dd($id,$record->exists(),$record->first(),$record->first());
@@ -71,6 +71,7 @@ class MovieController extends Controller {
     }
     
     public function store(CreateMovieRequest $request){
+    //public function store(MovieData $request){
         try {
             $isSucceed = DB::transaction(function () use ($request) {
                 $genreQuery = Genre::query()->where('name',$request['genre']);
